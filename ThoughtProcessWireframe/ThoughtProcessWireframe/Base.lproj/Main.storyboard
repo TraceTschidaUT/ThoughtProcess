@@ -143,6 +143,9 @@
                                 <rect key="frame" x="326" y="675" width="117" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create Account"/>
+                                <connections>
+                                    <segue destination="o7D-oh-KoH" kind="show" id="3w4-4N-O0Q"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -151,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gj2-zg-axQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.71875" y="-1228.125"/>
+            <point key="canvasLocation" x="-102" y="-457"/>
         </scene>
         <!--Account screen-->
         <scene sceneID="h5V-x6-0ar">
@@ -209,6 +212,9 @@
                                 <rect key="frame" x="311" y="521" width="147" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Change Password"/>
+                                <connections>
+                                    <segue destination="za3-ax-IHo" kind="show" id="3Ls-mO-Fr6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -217,7 +223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVO-DE-4AS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.71875" y="-538.4765625"/>
+            <point key="canvasLocation" x="87" y="-1190"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="79N-dU-FfO">
@@ -287,6 +293,9 @@
                                 <rect key="frame" x="310" y="360" width="150" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Change Password"/>
+                                <connections>
+                                    <segue destination="gf2-YA-2Ou" kind="show" id="nvh-dH-FsS"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -349,6 +358,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Create An Account"/>
+                                <connections>
+                                    <segue destination="9Hj-II-3YV" kind="show" id="qUc-sd-N5e"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q36-uv-hFk">
                                 <rect key="frame" x="372" y="521" width="25" height="21"/>
@@ -371,12 +383,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cjF-5E-KqN">
-                                <rect key="frame" x="314" y="403" width="140" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <state key="normal" title="Forgot Password"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ASu-Mw-3Rj">
                                 <rect key="frame" x="347" y="240" width="74" height="71"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -396,7 +402,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.71875" y="132.421875"/>
+            <point key="canvasLocation" x="-1140" y="209"/>
         </scene>
         <!--Home screen-->
         <scene sceneID="DVN-s9-pNZ">
@@ -518,6 +524,9 @@
                                 <rect key="frame" x="113" y="101" width="103" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create New"/>
+                                <connections>
+                                    <segue destination="3AL-6a-40s" kind="show" id="aLH-Kb-zMY"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zwZ-dY-hRa">
                                 <rect key="frame" x="262" y="101" width="75" height="30"/>
@@ -529,15 +538,34 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Share"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPp-c5-6To">
-                                <rect key="frame" x="610" y="101" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Delete"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5b-gQ-BvU">
                                 <rect key="frame" x="482" y="101" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Export"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQz-rg-jDE">
+                                <rect key="frame" x="649" y="36" width="119" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Account"/>
+                                <connections>
+                                    <segue destination="gf2-YA-2Ou" kind="show" id="ZYR-N7-7f5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="emT-Na-Yni">
+                                <rect key="frame" x="57" y="36" width="81" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Settings"/>
+                                <connections>
+                                    <segue destination="Aps-Ye-bWF" kind="show" id="niv-MO-vdu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPp-c5-6To">
+                                <rect key="frame" x="610" y="101" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <segue destination="ubt-pb-74h" kind="show" id="lLu-Pn-jyU"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -546,7 +574,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D4c-1y-WzI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="840.625" y="131.8359375"/>
+            <point key="canvasLocation" x="-101.5625" y="208.59375"/>
         </scene>
         <!--View Mind Map-->
         <scene sceneID="MHC-Ty-j4g">
@@ -568,8 +596,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" tag="-1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-rS-Tvi">
-                                <rect key="frame" x="114" y="101" width="541" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" tag="-1" contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-rS-Tvi">
+                                <rect key="frame" x="64" y="102" width="640" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="Add Connection" id="RfC-ZH-oGZ"/>
@@ -579,6 +607,21 @@
                                     <barButtonItem title="Text" id="L63-pn-iq6"/>
                                     <barButtonItem title="Highlight" id="iR8-FR-qgH"/>
                                     <barButtonItem title="Insert" id="PzT-GL-F9M"/>
+                                    <barButtonItem style="plain" id="bx4-A2-fqd">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0Vc-in-87j">
+                                            <rect key="frame" x="521.5" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Export"/>
+                                        </button>
+                                        <connections>
+                                            <segue destination="9dH-BS-OIt" kind="show" id="bcN-rJ-4TU"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Share" id="Hzk-Xe-PQ3">
+                                        <connections>
+                                            <segue destination="kWj-GQ-Qwl" kind="show" id="YAR-s6-WoK"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -590,7 +633,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jX3-IW-qpX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1519.53125" y="127.73437499999999"/>
+            <point key="canvasLocation" x="587.5" y="208.59375"/>
         </scene>
         <!--Create New Mind Map-->
         <scene sceneID="FPY-Db-DzH">
@@ -634,6 +677,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Create Mind Map"/>
+                                <connections>
+                                    <segue destination="frL-Nv-97O" kind="show" id="fRZ-Ms-ylc"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -674,6 +720,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Export Mind Map"/>
+                                <connections>
+                                    <segue destination="o7D-oh-KoH" kind="show" id="2ME-dW-Wdg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -715,6 +764,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Delete Mind Map"/>
+                                <connections>
+                                    <segue destination="o7D-oh-KoH" kind="show" id="vlj-1i-sG7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -723,7 +775,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1Z-ad-7ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1484" y="-1228"/>
+            <point key="canvasLocation" x="232" y="900"/>
+        </scene>
+        <!--Launch Screen-->
+        <scene sceneID="C6q-Vc-O8P">
+            <objects>
+                <viewController title="Launch Screen" id="7vF-sg-rJJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4mw-oA-a4p">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="oQX-Ov-fw6"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xmv-Ze-2xy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1906" y="209"/>
         </scene>
         <!--Delete Mind Map-->
         <scene sceneID="X4Y-pb-bGh">
@@ -770,6 +837,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Share Mind Map"/>
+                                <connections>
+                                    <segue destination="o7D-oh-KoH" kind="show" id="0hd-Td-6j3"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Recipents Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tAz-sj-zpZ">
                                 <rect key="frame" x="20" y="407" width="728" height="30"/>
@@ -882,7 +952,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8N-Ro-6vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2206" y="-538"/>
+            <point key="canvasLocation" x="-663" y="950"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="aLH-Kb-zMY"/>
+        <segue reference="0hd-Td-6j3"/>
+        <segue reference="ZYR-N7-7f5"/>
+    </inferredMetricsTieBreakers>
 </document>
