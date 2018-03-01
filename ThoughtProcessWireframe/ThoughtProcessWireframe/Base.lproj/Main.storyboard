@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Create a new Account-->
+        <!--Create New Account Screen-->
         <scene sceneID="dHT-kE-RLo">
             <objects>
-                <viewController title="Create a new Account" id="9Hj-II-3YV" sceneMemberID="viewController">
+                <viewController title="Create New Account Screen" id="9Hj-II-3YV" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9YK-zO-psI">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -154,12 +154,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gj2-zg-axQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-102" y="-457"/>
+            <point key="canvasLocation" x="-1157" y="-503"/>
         </scene>
-        <!--Account screen-->
+        <!--Account Screen-->
         <scene sceneID="h5V-x6-0ar">
             <objects>
-                <viewController title="Account screen" id="gf2-YA-2Ou" sceneMemberID="viewController">
+                <viewController title="Account Screen" id="gf2-YA-2Ou" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Oh-QN-wM5">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -223,18 +223,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVO-DE-4AS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="-1190"/>
+            <point key="canvasLocation" x="1298" y="995"/>
         </scene>
-        <!--View Controller-->
+        <!--Change Password Screen-->
         <scene sceneID="79N-dU-FfO">
             <objects>
-                <viewController id="za3-ax-IHo" sceneMemberID="viewController">
+                <viewController title="Change Password Screen" id="za3-ax-IHo" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ul9-FH-Lin">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a1p-dk-koN">
-                                <rect key="frame" x="258" y="58" width="253" height="21"/>
+                                <rect key="frame" x="258" y="58" width="253" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <nil key="textColor"/>
@@ -275,13 +275,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&lt;Error Message&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GoA-eZ-P7W">
-                                <rect key="frame" x="310" y="331" width="148" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SRW-52-h5t">
                                 <rect key="frame" x="309" y="180" width="275" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -294,9 +287,16 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Change Password"/>
                                 <connections>
-                                    <segue destination="gf2-YA-2Ou" kind="show" id="nvh-dH-FsS"/>
+                                    <segue destination="gf2-YA-2Ou" kind="show" id="TXf-s5-h4u"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&lt;Error Message&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GoA-eZ-P7W">
+                                <rect key="frame" x="320" y="331" width="148" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="XLN-3X-GW0"/>
@@ -304,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L8c-w0-zA8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830.46875" y="-1222.265625"/>
+            <point key="canvasLocation" x="1297.65625" y="288.8671875"/>
         </scene>
         <!--Login Screen-->
         <scene sceneID="tne-QT-ifu">
@@ -402,7 +402,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1140" y="209"/>
+            <point key="canvasLocation" x="-1145" y="289"/>
         </scene>
         <!--Home screen-->
         <scene sceneID="DVN-s9-pNZ">
@@ -468,6 +468,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="103"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="frL-Nv-97O" kind="show" id="Gww-Uf-GM8"/>
+                                        </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="kOc-Kj-DmC">
                                         <rect key="frame" x="0.0" y="113" width="100" height="103"/>
@@ -574,12 +577,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D4c-1y-WzI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-101.5625" y="208.59375"/>
+            <point key="canvasLocation" x="-284" y="272"/>
         </scene>
-        <!--View Mind Map-->
+        <!--Mind Map Viewing and Editing Screen-->
         <scene sceneID="MHC-Ty-j4g">
             <objects>
-                <viewController title="View Mind Map" id="frL-Nv-97O" sceneMemberID="viewController">
+                <viewController title="Mind Map Viewing and Editing Screen" id="frL-Nv-97O" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gHZ-Wa-1QH">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -633,12 +636,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jX3-IW-qpX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="587.5" y="208.59375"/>
+            <point key="canvasLocation" x="535" y="289"/>
         </scene>
         <!--Create New Mind Map-->
         <scene sceneID="FPY-Db-DzH">
             <objects>
-                <viewController title="Create New Mind Map" id="3AL-6a-40s" customClass="ViewController" customModule="test" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Create New Mind Map" id="3AL-6a-40s" customClass="ViewController" customModule="ThoughtProcessWireframe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PMn-A7-quH">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -688,11 +691,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hi1-zj-mIi" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-257" y="977"/>
         </scene>
-        <!--Export Mind Map-->
+        <!--Export Screen-->
         <scene sceneID="SSc-ze-rTW">
             <objects>
-                <viewController title="Export Mind Map" id="9dH-BS-OIt" sceneMemberID="viewController">
+                <viewController title="Export Screen" id="9dH-BS-OIt" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M7a-Ub-yQV">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -731,12 +735,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYc-g1-FXs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1484" y="-538"/>
+            <point key="canvasLocation" x="-284" y="-520"/>
         </scene>
-        <!--Delete Mind Map-->
+        <!--Delete Map Screen-->
         <scene sceneID="cNf-3K-H1t">
             <objects>
-                <viewController title="Delete Mind Map" id="ubt-pb-74h" sceneMemberID="viewController">
+                <viewController title="Delete Map Screen" id="ubt-pb-74h" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3he-Yr-Sme">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -775,7 +779,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W1Z-ad-7ht" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="232" y="900"/>
+            <point key="canvasLocation" x="536" y="995"/>
         </scene>
         <!--Launch Screen-->
         <scene sceneID="C6q-Vc-O8P">
@@ -790,12 +794,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xmv-Ze-2xy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1906" y="209"/>
+            <point key="canvasLocation" x="-1836" y="313"/>
         </scene>
-        <!--Delete Mind Map-->
+        <!--Delete Screen-->
         <scene sceneID="X4Y-pb-bGh">
             <objects>
-                <viewController title="Delete Mind Map" id="kWj-GQ-Qwl" sceneMemberID="viewController">
+                <viewController title="Delete Screen" id="kWj-GQ-Qwl" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lob-RG-2xv">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -863,12 +867,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YA3-l1-Tk4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2207" y="128"/>
+            <point key="canvasLocation" x="536" y="-503"/>
         </scene>
-        <!--Application Settings-->
+        <!--Settings Screen-->
         <scene sceneID="UgV-Mo-qhn">
             <objects>
-                <viewController title="Application Settings" id="Aps-Ye-bWF" sceneMemberID="viewController">
+                <viewController title="Settings Screen" id="Aps-Ye-bWF" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vkA-6b-gQq">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -952,12 +956,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8N-Ro-6vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-663" y="950"/>
+            <point key="canvasLocation" x="-1157" y="995"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="aLH-Kb-zMY"/>
-        <segue reference="0hd-Td-6j3"/>
-        <segue reference="ZYR-N7-7f5"/>
+        <segue reference="fRZ-Ms-ylc"/>
+        <segue reference="vlj-1i-sG7"/>
+        <segue reference="TXf-s5-h4u"/>
     </inferredMetricsTieBreakers>
 </document>
