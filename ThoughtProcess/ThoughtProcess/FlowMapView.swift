@@ -15,6 +15,12 @@ protocol TextViewProtocol {
 class ArrowView: UIView {
     
     let controllerDelegate: ViewAndEditViewController
+    var textView: UITextView?
+    var color = UIColor.gray {
+        didSet {
+            self.setNeedsDisplay()
+        }
+    }
     
     init(frame: CGRect, controller: ViewAndEditViewController) {
         controllerDelegate = controller
@@ -31,8 +37,6 @@ class ArrowView: UIView {
         
         let size = self.bounds.size
         let height = size.height * 0.85
-        print(self.bounds)
-        print(self.frame)
         
         // calculate the 5 points of the pentagon
         let p1 = self.bounds.origin
@@ -51,14 +55,28 @@ class ArrowView: UIView {
         path.addLine(to: p5)
         path.close()
         
-        UIColor.red.set()
+        // Set the color for the object
+        color.set()
         
         // fill the path
         path.fill()
         
-        // Add a text view
-        let textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
-        textView.delegate = controllerDelegate
+        // Create and add a Text View
+        var textView: UITextView
+        
+        if self.textView != nil {
+            textView = self.textView!
+        }
+        else
+        {
+            // Add a text view
+            textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
+            textView.backgroundColor = UIColor.orange
+            textView.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+            textView.delegate = controllerDelegate
+            self.textView = textView
+        }
+        
         self.addSubview(textView)
         
         // Enable user interaction

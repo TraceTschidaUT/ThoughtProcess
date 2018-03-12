@@ -50,9 +50,17 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Add Connection" id="9wU-YQ-cJM"/>
-                                    <barButtonItem title="Color" id="ntl-5Q-mId"/>
+                                    <barButtonItem title="Color" id="ntl-5Q-mId">
+                                        <connections>
+                                            <action selector="changeColorButton:" destination="N8N-5x-kPT" id="2xB-ry-Zez"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem id="Nk6-Na-HgQ"/>
-                                    <barButtonItem title="Text" id="36X-dX-7vO"/>
+                                    <barButtonItem title="Text" id="36X-dX-7vO">
+                                        <connections>
+                                            <action selector="changeTextButton:" destination="N8N-5x-kPT" id="Pjz-PO-F5S"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="Highlight" id="r7t-Le-fQ2"/>
                                     <barButtonItem title="Insert" id="KpS-ws-scl"/>
                                     <barButtonItem title="Share" width="79.5" id="9Zp-dh-ftH"/>
