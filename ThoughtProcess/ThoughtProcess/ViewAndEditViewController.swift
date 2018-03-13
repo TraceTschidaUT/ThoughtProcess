@@ -29,6 +29,10 @@ class ViewAndEditViewController: UIViewController {
         // Create a tap recognizer for the canvas to dismiss the keyboard
         let tapCanvas = UITapGestureRecognizer(target: self, action: #selector(tapCanvas(_:)))
         canvasView.addGestureRecognizer(tapCanvas)
+        
+        // Create a menu option for highlighting
+        let highlight = UIMenuItem(title: "Highlight", action: #selector(highlightText(_:)))
+        UIMenuController.shared.menuItems = [highlight]
     }
     
     // UI Properties
@@ -36,7 +40,7 @@ class ViewAndEditViewController: UIViewController {
     @IBOutlet weak var canvasView: UIView!
     @IBOutlet weak var optionsToolBar: UIToolbar!
     var sections: [Int: ArrowView] = [:]
-    var selectedSection: ArrowView?
+    var selectedTextView: UITextView?
     var alertController: UIAlertController? = nil
     var colorPicker: UIPickerView?
     var textPropertyPicker: UIPickerView?
@@ -47,23 +51,38 @@ class ViewAndEditViewController: UIViewController {
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     
     // UI Methods
+    @IBAction func applyTextChanges(_ sender: UIButton) {
+        
+        // Remove the blur, text property picker, and button from the view
+        self.blurView?.removeFromSuperview()
+        self.textPropertyPicker?.removeFromSuperview()
+        sender.removeFromSuperview()
+    }
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
+        
+        // Get the users defaults for the property picker
+        guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+        let fontTypeNum: Int = sectionView.fontType.value
+        let fontColorNum: Int = sectionView.fontColor.value
+        let backgroundColorNum: Int = sectionView.fontBackgroundColor.value
         
         // Create a floating text property picker
         let textPropertyPicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.maxX, height: self.view.frame.maxY))
+        textPropertyPicker.showsSelectionIndicator = true
         textPropertyPicker.dataSource = self
         textPropertyPicker.delegate = self
         textPropertyPicker.tag = 1
         self.textPropertyPicker = textPropertyPicker
         
         // Create a select button
-        let selectButton: UIButton = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 100))
+        let selectButton: UIButton = UIButton(frame: CGRect(x: self.view.frame.maxX * 0.80, y: self.view.frame.maxY * 0.80, width: 125, height: 50))
         selectButton.setTitle("Apply Changes", for: .normal)
         selectButton.setTitleColor(UIColor.white, for: .normal)
-        selectButton.backgroundColor = UIColor.blue
-        selectButton.layer.cornerRadius = 5
-        // selectButton.center.x = colorPicker.center.x
-        // selectButton.center.y = colorPicker.center.y
+        selectButton.setTitleColor(UIColor.lightGray, for: .selected)
+        selectButton.backgroundColor = UIColor.clear
+        selectButton.layer.borderColor = UIColor.blue.cgColor
+        selectButton.layer.cornerRadius = 10
+        selectButton.addTarget(self, action: #selector(applyTextChanges(_:)), for: .touchUpInside)
         
         // Create blur effect
         self.createBlurEffect()
@@ -71,6 +90,11 @@ class ViewAndEditViewController: UIViewController {
         // Add text property picker to view
         self.view.addSubview(textPropertyPicker)
         self.view.addSubview(selectButton)
+        
+        // Set the user settings
+        textPropertyPicker.selectRow(fontTypeNum, inComponent: 0, animated: false)
+        textPropertyPicker.selectRow(fontColorNum, inComponent: 1, animated: false)
+        textPropertyPicker.selectRow(backgroundColorNum, inComponent: 2, animated: false)
     }
     
     @IBAction func changeColorButton(_ sender: UIBarButtonItem) {
@@ -95,7 +119,7 @@ class ViewAndEditViewController: UIViewController {
         
         // Create a new Arrow shape
         let viewCenter: CGPoint = CGPoint(x: self.viewAndEditScrollView.center.x - 100, y: self.viewAndEditScrollView.center.y - 100)
-        let arrow = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: 150, height: 100)), controller: self)
+        let arrow = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)), controller: self)
         arrow.tag = sections.count + 1
         
         // Add a pan gesture recognizer to the arrow
@@ -265,7 +289,7 @@ extension ViewAndEditViewController: UITextViewDelegate {
     // Keyboard setup
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         self.viewAndEditScrollView.isScrollEnabled = false
-        self.selectedSection = textView.superview as? ArrowView
+        self.selectedTextView = textView
         return true
     }
     
@@ -282,6 +306,48 @@ extension ViewAndEditViewController: UITextViewDelegate {
         
         // Save the text to the section class
         section.textView = textView
+    }
+    
+    @objc func highlightText(_ sender: AnyObject?) {
+        
+        // Get the selected range of text
+        guard let start = self.selectedTextView?.selectedRange.lowerBound else { return }
+        guard let end = self.selectedTextView?.selectedRange.upperBound else { return }
+        if start < end {
+            
+            // Get the superview and range
+            guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+            guard let range = self.selectedTextView?.selectedRange else { return }
+            
+            // Get the selected text
+            guard let selectedText = self.selectedTextView?.attributedText.attributedSubstring(from: range) else { return }
+            
+            // Create the Attriubted Text
+            guard let attributedText = self.selectedTextView?.attributedText else { return }
+            
+            print(selectedText)
+            print("\n\n\n")
+            
+            // Create a mutable string from the original text
+            let mutableString = NSMutableAttributedString(attributedString: attributedText)
+            
+            // Change the atttributes
+            mutableString.addAttributes([NSAttributedStringKey.font: sectionView.fontType.type,
+                                         NSAttributedStringKey.foregroundColor: UIColor.red.cgColor],
+                                        range: NSMakeRange(0, attributedText.string.count - 1))
+            
+            
+            // Create the highlight and replace the text
+            let highlight = NSMutableAttributedString(attributedString: selectedText)
+            highlight.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.yellow.cgColor], range: NSMakeRange(0, selectedText.string.count))
+            mutableString.replaceCharacters(in: range, with: highlight)
+            
+            print(mutableString)
+            
+            // Change the mutable string
+            self.selectedTextView?.attributedText = mutableString
+            
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -356,18 +422,33 @@ extension ViewAndEditViewController: UIPickerViewDelegate, UIPickerViewDataSourc
             
             // Change the color of every section
             for (_, section) in self.sections {
-                section.color = color
+                section.viewColor = color
             }
             
             // Remove the color picker and blur effect
             self.colorPicker?.removeFromSuperview()
             
+            // Remove the blur effect
+            self.blurView?.removeFromSuperview()
+            
         default:
-            var _ = "trace"
+            
+            // Get the super view
+            guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+            
+            // If the font
+            if component == 0 {
+                sectionView.fontType = FontType(name: self.fontStyles[row], value: row, type: UIFont.preferredFont(forTextStyle: self.getUIFontStyle(row)))
+            }
+            // If the text color
+            else if component == 1 {
+                sectionView.fontColor = FontColor(name: self.colors[row], value: row, type: self.getUIColor(row))
+            }
+            // If the background color
+            else if component == 2 {
+                sectionView.fontBackgroundColor = FontBackgroundColor(name: self.colors[row], value: row, type: self.getUIColor(row))
+            }
         }
-        
-        // Remove the blur effect
-        self.blurView?.removeFromSuperview()
     }
 }
 

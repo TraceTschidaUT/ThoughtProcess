@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C859E19D205839FA003627AA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C859E19C205839FA003627AA /* Strings.swift */; };
 		C8713151205193DC005D05AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8713150205193DC005D05AE /* AppDelegate.swift */; };
 		C8713156205193DC005D05AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8713154205193DC005D05AE /* Main.storyboard */; };
 		C8713159205193DC005D05AE /* ThoughtProcess.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C8713157205193DC005D05AE /* ThoughtProcess.xcdatamodeld */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C859E19C205839FA003627AA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		C871314D205193DC005D05AE /* ThoughtProcess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThoughtProcess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8713150205193DC005D05AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C8713155205193DC005D05AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -65,13 +67,14 @@
 				C8713150205193DC005D05AE /* AppDelegate.swift */,
 				C8713154205193DC005D05AE /* Main.storyboard */,
 				C871316520519489005D05AE /* Home.storyboard */,
-				C871316D20519DC4005D05AE /* ViewAndEditViewController.swift */,
 				C87131672051951F005D05AE /* ViewAndEdit.storyboard */,
-				C871315A205193DC005D05AE /* Assets.xcassets */,
+				C871316D20519DC4005D05AE /* ViewAndEditViewController.swift */,
 				C871316F2051A95F005D05AE /* FlowMapView.swift */,
+				C859E19C205839FA003627AA /* Strings.swift */,
 				C871315C205193DC005D05AE /* LaunchScreen.storyboard */,
-				C871315F205193DC005D05AE /* Info.plist */,
 				C8713157205193DC005D05AE /* ThoughtProcess.xcdatamodeld */,
+				C871315F205193DC005D05AE /* Info.plist */,
+				C871315A205193DC005D05AE /* Assets.xcassets */,
 			);
 			path = ThoughtProcess;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			files = (
 				C87131702051A95F005D05AE /* FlowMapView.swift in Sources */,
 				C871316E20519DC4005D05AE /* ViewAndEditViewController.swift in Sources */,
+				C859E19D205839FA003627AA /* Strings.swift in Sources */,
 				C8713159205193DC005D05AE /* ThoughtProcess.xcdatamodeld in Sources */,
 				C8713151205193DC005D05AE /* AppDelegate.swift in Sources */,
 			);

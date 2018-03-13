@@ -8,17 +8,48 @@
 
 import UIKit
 
-protocol TextViewProtocol {
-    func test()
+struct FontType {
+    var name: String
+    var value: Int
+    var type: UIFont
+}
+
+struct FontColor {
+    var name: String
+    var value: Int
+    var type: UIColor
+}
+
+struct FontBackgroundColor {
+    var name: String
+    var value: Int
+    var type: UIColor
 }
 
 class ArrowView: UIView {
     
     let controllerDelegate: ViewAndEditViewController
     var textView: UITextView?
-    var color = UIColor.gray {
+    var selectedText: String = ""
+    var viewColor = UIColor.gray {
         didSet {
             self.setNeedsDisplay()
+        }
+    }
+   
+    var fontType: FontType = FontType(name: "Body", value: 0, type: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)) {
+        didSet {
+            self.textView?.font = fontType.type
+        }
+    }
+    var fontColor: FontColor = FontColor(name: "Light Gray", value: 5, type: UIColor.lightGray) {
+        didSet {
+            self.textView?.textColor = fontColor.type
+        }
+    }
+    var fontBackgroundColor: FontBackgroundColor = FontBackgroundColor(name: "Black", value: 0, type: UIColor.black) {
+        didSet {
+            self.textView?.backgroundColor = fontBackgroundColor.type
         }
     }
     
@@ -56,7 +87,7 @@ class ArrowView: UIView {
         path.close()
         
         // Set the color for the object
-        color.set()
+        viewColor.set()
         
         // fill the path
         path.fill()
@@ -64,16 +95,21 @@ class ArrowView: UIView {
         // Create and add a Text View
         var textView: UITextView
         
+        // If there is a text view means this is being redrawn
+        // Just readd the textView
         if self.textView != nil {
             textView = self.textView!
         }
-        else
-        {
+        else {
             // Add a text view
             textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
-            textView.backgroundColor = UIColor.orange
-            textView.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+            textView.backgroundColor = self.fontBackgroundColor.type
+            textView.font = self.fontType.type
+            textView.textColor = self.fontColor.type
             textView.delegate = controllerDelegate
+            textView.allowsEditingTextAttributes = true
+            textView.isSelectable = true
+            textView.isEditable = true
             self.textView = textView
         }
         
