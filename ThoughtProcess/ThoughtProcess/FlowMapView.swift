@@ -94,7 +94,7 @@ class ArrowView: UIView {
         
         // Create and add a Text View
         var textView: UITextView
-        
+
         // If there is a text view means this is being redrawn
         // Just readd the textView
         if self.textView != nil {

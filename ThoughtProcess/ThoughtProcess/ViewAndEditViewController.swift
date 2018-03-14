@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewAndEditViewController: UIViewController {
+class ViewAndEditViewController: UIViewController, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +51,24 @@ class ViewAndEditViewController: UIViewController {
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     
     // UI Methods
+    @IBAction func insertButton(_ sender: UIBarButtonItem) {
+        
+        // Check if access to saved photos
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+            
+        }
+            
+        // Request access to the device's photo library
+        else {
+            
+        }
+    }
+    
+    
     @IBAction func applyTextChanges(_ sender: UIButton) {
         
         // Remove the blur, text property picker, and button from the view
@@ -321,6 +339,9 @@ extension ViewAndEditViewController: UITextViewDelegate {
             // Get the selected text
             guard let selectedText = self.selectedTextView?.attributedText.attributedSubstring(from: range) else { return }
             
+            // Get all of the text
+            guard let allText = self.selectedTextView?.attributedText.string else { return }
+            
             // Create a mutable string from the original text
             guard let mutableString = self.selectedTextView?.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
             
@@ -330,7 +351,9 @@ extension ViewAndEditViewController: UITextViewDelegate {
             highlight.addAttributes([NSAttributedStringKey.backgroundColor: UIColor.yellow], range: NSMakeRange(0, selectedText.string.count))
             mutableString.replaceCharacters(in: range, with: highlight)
             
-            print(mutableString)
+            // Make the attributed string background clear after the highlight
+            let endOfText: NSRange = NSMakeRange(allText.count - 1, 1)
+            mutableString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.clear, range: endOfText)
             
             // Change the mutable string
             self.selectedTextView?.attributedText = mutableString
@@ -443,6 +466,69 @@ extension ViewAndEditViewController: UIPickerViewDelegate, UIPickerViewDataSourc
 extension ViewAndEditViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return gestureRecognizer.name == "movementLongPress" && otherGestureRecognizer.name == "pan"
+    }
+}
+
+extension ViewAndEditViewController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard var image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        // Get the attributed text
+        guard let mutableString = self.selectedTextView?.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
+        guard let endOfString: Int = self.selectedTextView?.attributedText.string.count else { return }
+        
+        // Get the scale factor to make the image fit within the view
+        guard let textViewSize = self.selectedTextView?.frame.size else { return }
+        image = resizeImage(image: image, targetSize: textViewSize)
+        
+        // Create an image attachment
+        let textAttachment = NSTextAttachment()
+        textAttachment.image = image
+        let imageString = NSAttributedString(attachment: textAttachment)
+        
+        // Add the image to the mutableString and set that to the text view's data
+        let cursorPosition = self.selectedTextView?.selectedRange.upperBound ?? endOfString - 1
+        mutableString.insert(imageString, at: cursorPosition)
+        
+        self.selectedTextView?.attributedText = mutableString
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
 }
 
