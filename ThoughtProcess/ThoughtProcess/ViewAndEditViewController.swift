@@ -315,31 +315,19 @@ extension ViewAndEditViewController: UITextViewDelegate {
         guard let end = self.selectedTextView?.selectedRange.upperBound else { return }
         if start < end {
             
-            // Get the superview and range
-            guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+            // Get the range
             guard let range = self.selectedTextView?.selectedRange else { return }
             
             // Get the selected text
             guard let selectedText = self.selectedTextView?.attributedText.attributedSubstring(from: range) else { return }
             
-            // Create the Attriubted Text
-            guard let attributedText = self.selectedTextView?.attributedText else { return }
-            
-            print(selectedText)
-            print("\n\n\n")
-            
             // Create a mutable string from the original text
-            let mutableString = NSMutableAttributedString(attributedString: attributedText)
-            
-            // Change the atttributes
-            mutableString.addAttributes([NSAttributedStringKey.font: sectionView.fontType.type,
-                                         NSAttributedStringKey.foregroundColor: UIColor.red.cgColor],
-                                        range: NSMakeRange(0, attributedText.string.count - 1))
+            guard let mutableString = self.selectedTextView?.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
             
             
             // Create the highlight and replace the text
             let highlight = NSMutableAttributedString(attributedString: selectedText)
-            highlight.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.yellow.cgColor], range: NSMakeRange(0, selectedText.string.count))
+            highlight.addAttributes([NSAttributedStringKey.backgroundColor: UIColor.yellow], range: NSMakeRange(0, selectedText.string.count))
             mutableString.replaceCharacters(in: range, with: highlight)
             
             print(mutableString)
