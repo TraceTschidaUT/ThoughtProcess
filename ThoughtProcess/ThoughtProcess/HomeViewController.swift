@@ -11,13 +11,13 @@ import UIKit
 private let reuseIdentifer = "Cell"
 
 protocol MindMapDataProtocol {
-    var filePath: String { get set }
+    var filePath: [String] { get set }
 }
 
 class HomeViewController: UIViewController, MindMapDataProtocol {
     
     @IBOutlet weak var previewCollectionView: UICollectionView!
-    var filePath: String = ""
+    var filePath: [String] = []
     var count = 0
 
     override func viewDidLoad() {
@@ -45,6 +45,11 @@ class HomeViewController: UIViewController, MindMapDataProtocol {
         let vc = segue.destination as? ViewAndEditViewController
         vc?.delegate = self
     }
+    
+     override func unwind(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        
+        self.previewCollectionView.reloadData()
+    }
 
 }
 
@@ -55,11 +60,13 @@ extension HomeViewController: UICollectionViewDelegate {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         print("Selected: " + String(cell.tag))
         
-        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? UIView else { return }
+        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath[indexPath.row]) as? UIView else { return }
+        print(indexPath.row)
         guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
         controller.customView = view
         controller.delegate = self
-        self.navigationController?.present(controller, animated: true, completion: nil)
+        controller.tag = indexPath.row
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -79,6 +86,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         // Return the number of items
+        print(filePath.count)
         return 2
     }
     

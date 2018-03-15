@@ -32,9 +32,11 @@ protocol MindMapSectionProtocol {
 
 class ArrowView: UIView {
     
+    // MARK: - Properties
     var delegate: ViewAndEditViewController?
     var textView: UITextView?
     var selectedText: String = ""
+    
     var viewColor = UIColor.gray {
         didSet {
             self.setNeedsDisplay()

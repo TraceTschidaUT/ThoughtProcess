@@ -62,7 +62,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("trace").path else { return }
         let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
         print(saved)
-        self.delegate?.filePath = path
+        self.delegate?.filePath.append(contentsOf: [path])
+        fatalError("Need to create a unique path everytime")
     }
     
     // UI Properties
@@ -81,6 +82,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     var delegate: MindMapDataProtocol?
     var customView: UIView?
+    var tag: Int?
     
     // UI Methods
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
@@ -108,7 +110,10 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         self.textPropertyPicker?.removeFromSuperview()
         sender.removeFromSuperview()
         
-        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: (self.delegate?.filePath)!)
+        // Save the changes to the view
+        guard let tag: Int = self.tag else { return }
+        guard let path: String = self.delegate?.filePath[tag] else { return }
+        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
         print(saved)
     }
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
@@ -288,6 +293,7 @@ extension ViewAndEditViewController {
             section.removeFromSuperview()
             
             // Remove from the array
+            self.sections.removeValue(forKey: section.tag)
             
         })
         self.alertController?.addAction(cancelAction)
@@ -650,13 +656,20 @@ extension ViewAndEditViewController {
 }
 
 extension ViewAndEditViewController {
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        
+        print("in here")
      }
-     */
+    
+    override func unwind(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        
+        let collectionVC = subsequentVC as? HomeViewController
+        collectionVC?.previewCollectionView.reloadData()
+    }
 }
