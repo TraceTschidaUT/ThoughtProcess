@@ -20,7 +20,7 @@ struct FontColor {
     var type: UIColor
 }
 
-struct FontBackgroundColor {
+struct TextViewBackgroundColor {
     var name: String
     var value: Int
     var type: UIColor
@@ -51,9 +51,9 @@ class ArrowView: UIView {
             self.textView?.textColor = fontColor.type
         }
     }
-    var fontBackgroundColor: FontBackgroundColor = FontBackgroundColor(name: "Black", value: 0, type: UIColor.black) {
+    var textViewBackgroundColor: TextViewBackgroundColor = TextViewBackgroundColor(name: "Black", value: 0, type: UIColor.black) {
         didSet {
-            self.textView?.backgroundColor = fontBackgroundColor.type
+            self.textView?.backgroundColor = textViewBackgroundColor.type
         }
     }
     
@@ -115,10 +115,37 @@ class ArrowView: UIView {
         // fill the path
         path.fill()
         
+        // Configure User Interactions
+        self.isUserInteractionEnabled = true
+        
         // Create and add a Text View
         var textView: UITextView
+        textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
+        
+        // Configure the font attributes
+        textView.font = self.textView?.font ?? self.fontType.type
+        textView.textColor = self.textView?.textColor ?? self.fontColor.type
+        
+        // Configure the text
+        let textViewText: NSAttributedString = self.textView?.attributedText ?? NSAttributedString()
+        textView.attributedText = textViewText
+        
+        // Configure the background color
+        let textViewBackgroundColor: UIColor = self.textView?.backgroundColor ?? self.textViewBackgroundColor.type
+        textView.backgroundColor = textViewBackgroundColor
+        
+        // Confugre the editing abilities
+        textView.allowsEditingTextAttributes = true
+        textView.isSelectable = true
+        textView.isEditable = true
+        
+        // Add the controller as the delgate for the Protocol
+        textView.delegate = delegate
+        
+        // Save the TextView as a property
+        self.textView = textView
 
-        // If there is a text view means this is being redrawn
+        /* If there is a text view means this is being redrawn because of the color background
         // Just read the textView
         if self.textView != nil {
             textView = self.textView!
@@ -126,7 +153,7 @@ class ArrowView: UIView {
         else {
             // Add a text view
             textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
-            textView.backgroundColor = self.fontBackgroundColor.type
+            textView.backgroundColor = self.textViewBackgroundColor.type
             textView.font = self.fontType.type
             textView.textColor = self.fontColor.type
             textView.allowsEditingTextAttributes = true
@@ -138,11 +165,10 @@ class ArrowView: UIView {
         
         textView.delegate = delegate
         self.textView?.delegate = delegate
+    */
         
         self.addSubview(textView)
         
-        // Enable user interaction
-        self.isUserInteractionEnabled = true
     }
     
 }

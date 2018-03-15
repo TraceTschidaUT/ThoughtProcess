@@ -117,7 +117,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
         let fontTypeNum: Int = sectionView.fontType.value
         let fontColorNum: Int = sectionView.fontColor.value
-        let backgroundColorNum: Int = sectionView.fontBackgroundColor.value
+        let backgroundColorNum: Int = sectionView.textViewBackgroundColor.value
         
         // Create a floating text property picker
         let textPropertyPicker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.maxX, height: self.view.frame.maxY))
@@ -500,7 +500,7 @@ extension ViewAndEditViewController: UIPickerViewDelegate, UIPickerViewDataSourc
             }
             // If the background color
             else if component == 2 {
-                sectionView.fontBackgroundColor = FontBackgroundColor(name: self.colors[row], value: row, type: self.getUIColor(row))
+                sectionView.textViewBackgroundColor = TextViewBackgroundColor(name: self.colors[row], value: row, type: self.getUIColor(row))
             }
         }
     }
