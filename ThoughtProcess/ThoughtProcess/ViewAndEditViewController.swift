@@ -14,17 +14,41 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        if self.customView != nil {
+            
+            // Get the scrollView
+            guard let scrollView = self.customView?.viewWithTag(1820) as? UIScrollView else { return }
+            guard let canvasView = scrollView.viewWithTag(320) else { return }
+            
+            // Iterate through each section to build the SectionViews
+            for canvasSubview in canvasView.subviews {
+                var numSections = 0
+                guard let section = canvasSubview as? ArrowView else { continue }
+                
+                
+                section.delegate = self
+                section.tag = numSections
+                self.addGestureRecognizers(arrow: section)
+                
+                self.canvasView.addSubview(section)
+                self.sections[numSections] = section
+                numSections += 1
+            }
+        }
+        
         // Connect the scroll view delegate and configure size
         self.viewAndEditScrollView.delegate = self
         self.viewAndEditScrollView.minimumZoomScale = 1.0
         self.viewAndEditScrollView.maximumZoomScale = 4.0
         self.viewAndEditScrollView.zoomScale = 2.0
+        self.viewAndEditScrollView.tag = 1820
         
         // Hook up tge keyboard dismissal
         viewAndEditScrollView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.onDrag
         
         // Confine the subview to this view
         self.canvasView.clipsToBounds = true
+        self.canvasView.tag = 320
         
         // Create a tap recognizer for the canvas to dismiss the keyboard
         let tapCanvas = UITapGestureRecognizer(target: self, action: #selector(tapCanvas(_:)))
@@ -33,6 +57,12 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         // Create a menu option for highlighting
         let highlight = UIMenuItem(title: "Highlight", action: #selector(highlightText(_:)))
         UIMenuController.shared.menuItems = [highlight]
+        
+        // Save the view data
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("trace").path else { return }
+        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
+        print(saved)
+        self.delegate?.filePath = path
     }
     
     // UI Properties
@@ -49,6 +79,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     // Controller Properties
     let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
+    var delegate: MindMapDataProtocol?
+    var customView: UIView?
     
     // UI Methods
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
@@ -75,6 +107,9 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         self.blurView?.removeFromSuperview()
         self.textPropertyPicker?.removeFromSuperview()
         sender.removeFromSuperview()
+        
+        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: (self.delegate?.filePath)!)
+        print(saved)
     }
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
         
@@ -137,8 +172,23 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         
         // Create a new Arrow shape
         let viewCenter: CGPoint = CGPoint(x: self.viewAndEditScrollView.center.x - 100, y: self.viewAndEditScrollView.center.y - 100)
-        let arrow = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)), controller: self)
+        let arrow = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
         arrow.tag = sections.count + 1
+        
+        self.addGestureRecognizers(arrow: arrow)
+        
+        // Add a delegate to the textView
+        arrow.delegate = self
+        
+        // Add the arrows to an array
+        self.sections[arrow.tag] = arrow
+        
+        // Add the arrow to the canvas
+        self.canvasView.addSubview(arrow)
+        
+    }
+    
+    func addGestureRecognizers(arrow: ArrowView) {
         
         // Add a pan gesture recognizer to the arrow
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handleArrowPan(_:)))
@@ -164,13 +214,6 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         movementLongPress.delegate = self
         movementLongPress.name = "movementLongPress"
         arrow.addGestureRecognizer(movementLongPress)
-        
-        // Add the arrows to an array
-        self.sections[arrow.tag] = arrow
-        
-        // Add the arrow to the canvas
-        self.canvasView.addSubview(arrow)
-        
     }
 
     override func didReceiveMemoryWarning() {

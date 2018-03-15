@@ -10,9 +10,14 @@ import UIKit
 
 private let reuseIdentifer = "Cell"
 
-class HomeViewController: UIViewController {
+protocol MindMapDataProtocol {
+    var filePath: String { get set }
+}
+
+class HomeViewController: UIViewController, MindMapDataProtocol {
     
     @IBOutlet weak var previewCollectionView: UICollectionView!
+    var filePath: String = ""
     var count = 0
 
     override func viewDidLoad() {
@@ -30,15 +35,16 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let vc = segue.destination as? ViewAndEditViewController
+        vc?.delegate = self
     }
-    */
 
 }
 
@@ -48,6 +54,12 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         print("Selected: " + String(cell.tag))
+        
+        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? UIView else { return }
+        guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
+        controller.customView = view
+        controller.delegate = self
+        self.navigationController?.present(controller, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

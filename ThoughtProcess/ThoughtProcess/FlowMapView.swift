@@ -26,9 +26,13 @@ struct FontBackgroundColor {
     var type: UIColor
 }
 
+protocol MindMapSectionProtocol {
+    
+}
+
 class ArrowView: UIView {
     
-    let controllerDelegate: ViewAndEditViewController
+    var delegate: ViewAndEditViewController?
     var textView: UITextView?
     var selectedText: String = ""
     var viewColor = UIColor.gray {
@@ -53,16 +57,35 @@ class ArrowView: UIView {
         }
     }
     
-    init(frame: CGRect, controller: ViewAndEditViewController) {
-        controllerDelegate = controller
+    override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
     }
     
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required convenience init?(coder aDecoder: NSCoder) {
+        print("in init")
+        let frame = aDecoder.decodeCGRect(forKey: "frame")
+        let text = aDecoder.decodeObject(forKey: "text") as? UITextView ?? UITextView()
+        let backgroundColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.lightGray
+        print(text.text)
+        
+        // Call the main init to build out the View
+        self.init(frame: frame)
+        
+        // Set the necessary properties
+        self.textView = text
+        self.backgroundColor = backgroundColor
     }
+    
+    override func encode(with aCoder: NSCoder) {
+        print("in encode")
+        super.encode(with: aCoder)
+        aCoder.encode(self.frame, forKey: "frame")
+        aCoder.encode(self.textView!, forKey: "text")
+        aCoder.encode(self.backgroundColor, forKey: "backgroundColor")
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
@@ -96,7 +119,7 @@ class ArrowView: UIView {
         var textView: UITextView
 
         // If there is a text view means this is being redrawn
-        // Just readd the textView
+        // Just read the textView
         if self.textView != nil {
             textView = self.textView!
         }
@@ -106,12 +129,15 @@ class ArrowView: UIView {
             textView.backgroundColor = self.fontBackgroundColor.type
             textView.font = self.fontType.type
             textView.textColor = self.fontColor.type
-            textView.delegate = controllerDelegate
             textView.allowsEditingTextAttributes = true
             textView.isSelectable = true
             textView.isEditable = true
+            textView.delegate = delegate
             self.textView = textView
         }
+        
+        textView.delegate = delegate
+        self.textView?.delegate = delegate
         
         self.addSubview(textView)
         
