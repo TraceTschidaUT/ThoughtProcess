@@ -63,7 +63,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
         print(saved)
         self.delegate?.filePath.append(contentsOf: [path])
-        fatalError("Need to create a unique path everytime")
+        //fatalError("Need to create a unique path everytime")
     }
     
     // UI Properties

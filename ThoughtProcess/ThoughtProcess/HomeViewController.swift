@@ -26,9 +26,8 @@ class HomeViewController: UIViewController, MindMapDataProtocol {
         // Set up the collectionView Delegate and DataSource
         previewCollectionView.delegate = self
         previewCollectionView.dataSource = self
+        self.navigationController?.delegate = self
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,6 +50,13 @@ class HomeViewController: UIViewController, MindMapDataProtocol {
         self.previewCollectionView.reloadData()
     }
 
+}
+
+extension HomeViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        self.previewCollectionView.reloadData()
+    }
 }
 
 // MARK: - Collection View Delegate
