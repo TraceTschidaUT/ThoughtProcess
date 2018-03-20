@@ -26,10 +26,6 @@ struct TextViewBackgroundColor {
     var type: UIColor
 }
 
-protocol MindMapSectionProtocol {
-    
-}
-
 class ArrowView: UIView {
     
     // MARK: - Properties

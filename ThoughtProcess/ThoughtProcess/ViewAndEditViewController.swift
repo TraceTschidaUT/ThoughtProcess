@@ -9,7 +9,26 @@
 import UIKit
 
 class ViewAndEditViewController: UIViewController, UINavigationControllerDelegate {
+    
+    // UI Properties
+    @IBOutlet weak var viewAndEditScrollView: UIScrollView!
+    @IBOutlet weak var canvasView: UIView!
+    @IBOutlet weak var optionsToolBar: UIToolbar!
+    var sections: [Int: ArrowView] = [:]
+    var selectedTextView: UITextView?
+    var alertController: UIAlertController? = nil
+    var colorPicker: UIPickerView?
+    var textPropertyPicker: UIPickerView?
+    var blurView: UIVisualEffectView?
+    
+    // Controller Properties
+    let Db = DbContext.sharedInstance
+    var path: String?
+    let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
+    let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
+    var customView: UIView?
 
+    // View did load
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -23,17 +42,33 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             // Iterate through each section to build the SectionViews
             for canvasSubview in canvasView.subviews {
                 var numSections = 0
+                
+                // Convert each section into a SectionView
                 guard let section = canvasSubview as? ArrowView else { continue }
                 
-                
+                // Set the delgate so the section can access the controller
                 section.delegate = self
-                section.tag = numSections
-                self.addGestureRecognizers(arrow: section)
                 
-                self.canvasView.addSubview(section)
+                // Add a tag
+                section.tag = numSections
+                
+                // Hold all of the sections so you can access them later
                 self.sections[numSections] = section
                 numSections += 1
+                
+                // Add the gesture recognizers
+                self.addGestureRecognizers(arrow: section)
+                
+                // Add the section to the subview
+                self.canvasView.addSubview(section)
             }
+        }
+        
+        else {
+            
+            // Create a new filepath
+            guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(UUID().uuidString).path else { return }
+            self.path = path
         }
         
         // Connect the scroll view delegate and configure size
@@ -58,31 +93,22 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         let highlight = UIMenuItem(title: "Highlight", action: #selector(highlightText(_:)))
         UIMenuController.shared.menuItems = [highlight]
         
+        // Title
+        self.navigationItem.title = "New Mind Map"
+        
         // Save the view data
-        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("trace").path else { return }
+        guard let path = self.path else { return }
         let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
-        print(saved)
-        self.delegate?.filePath.append(contentsOf: [path])
-        //fatalError("Need to create a unique path everytime")
+        
+        // Check if the save was successful
+        if saved && self.customView == nil {
+            
+            // Create a new entity
+            Db.createMindMapSection(newFilePath: path)
+        }
+        
+        
     }
-    
-    // UI Properties
-    @IBOutlet weak var viewAndEditScrollView: UIScrollView!
-    @IBOutlet weak var canvasView: UIView!
-    @IBOutlet weak var optionsToolBar: UIToolbar!
-    var sections: [Int: ArrowView] = [:]
-    var selectedTextView: UITextView?
-    var alertController: UIAlertController? = nil
-    var colorPicker: UIPickerView?
-    var textPropertyPicker: UIPickerView?
-    var blurView: UIVisualEffectView?
-    
-    // Controller Properties
-    let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
-    let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
-    var delegate: MindMapDataProtocol?
-    var customView: UIView?
-    var tag: Int?
     
     // UI Methods
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
@@ -110,11 +136,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         self.textPropertyPicker?.removeFromSuperview()
         sender.removeFromSuperview()
         
-        // Save the changes to the view
-        guard let tag: Int = self.tag else { return }
-        guard let path: String = self.delegate?.filePath[tag] else { return }
-        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
-        print(saved)
+        // Save the changes
+        self.saveView()
     }
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
         
@@ -153,6 +176,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         textPropertyPicker.selectRow(fontTypeNum, inComponent: 0, animated: false)
         textPropertyPicker.selectRow(fontColorNum, inComponent: 1, animated: false)
         textPropertyPicker.selectRow(backgroundColorNum, inComponent: 2, animated: false)
+        
     }
     
     @IBAction func changeColorButton(_ sender: UIBarButtonItem) {
@@ -190,6 +214,9 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         
         // Add the arrow to the canvas
         self.canvasView.addSubview(arrow)
+        
+        // Save the changes
+        // self.saveView()
         
     }
     
@@ -237,12 +264,13 @@ extension ViewAndEditViewController: UIScrollViewDelegate {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        // updateMinZoomScaleForSize(view.bounds.size)
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        // view?.transform = CGAffineTransform(scaleX: scale, y: scale)
         view?.layoutSubviews()
+        
+        // Save the changes
+        self.saveView()
         
     }
     
@@ -253,6 +281,9 @@ extension ViewAndEditViewController: UIScrollViewDelegate {
         
         viewAndEditScrollView.minimumZoomScale = minScale
         viewAndEditScrollView.zoomScale = minScale
+        
+        // Save the changes
+        self.saveView()
     }
 }
 
@@ -276,6 +307,9 @@ extension ViewAndEditViewController {
             // Lock the scrolling view
             self.viewAndEditScrollView.isScrollEnabled = false
         }
+        
+        // Save the changes
+        self.saveView()
     }
     
     @IBAction func handleArrowLongPress(_ recognizer: UILongPressGestureRecognizer) {
@@ -313,6 +347,9 @@ extension ViewAndEditViewController {
             // Reset the recognizer
             recognizer.scale = 1.0
         }
+        
+        // Save the changes
+        self.saveView()
     }
     @IBAction func handleArrowPan(_ recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.view)
@@ -406,6 +443,9 @@ extension ViewAndEditViewController: UITextViewDelegate {
             
             // Change the mutable string
             self.selectedTextView?.attributedText = mutableString
+            
+            // Save the changes
+            self.saveView()
             
         }
     }
@@ -671,5 +711,29 @@ extension ViewAndEditViewController {
         
         let collectionVC = subsequentVC as? HomeViewController
         collectionVC?.previewCollectionView.reloadData()
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        print("about to show!")
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        print("showing!")
+    }
+}
+
+extension ViewAndEditViewController {
+    
+    func saveView() {
+        
+        // Save the changes to the view
+        guard let path = self.path else { return }
+        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
+        if saved {
+            print("The view saved")
+        }
+        else {
+            print("The view failed to save")
+        }
     }
 }
