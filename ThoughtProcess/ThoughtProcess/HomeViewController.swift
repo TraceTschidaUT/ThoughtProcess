@@ -41,13 +41,27 @@ class HomeViewController: UIViewController {
         // Get all of the mind maps
         let mindMaps = Db.fetchAllMindMaps()
         
-        // Sort the mind maps accordingly
-        let ascendingTitleSorted = mindMaps.sorted(by: {(mm1, mm2) in
+        // Create an action sheet for the different sorting methods
+        let alertController = UIAlertController(title: "Sort Mind Maps", message: "Choose how you want your Mind Maps sorted", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let ascendingTitle = UIAlertAction(title: "Ascending Title", style: UIAlertActionStyle.default, handler: { (alertAction) in
+            // Sort the mind maps accordingly
+            let ascendingTitleSorted = mindMaps.sorted(by: {(mm1, mm2) in
+                
+                guard let title1 = mm1.title else { return false }
+                guard let title2 = mm2.title else { return true }
+                
+                return title1 < title2
+            })
             
-            guard let title1 = mm1.title else { return false}
-            guard let title2 = mm2.title else { return true}
-            
-            return title1 < title2
+            print(ascendingTitleSorted.first?.title)
+        })
+        
+        alertController.addAction(ascendingTitle)
+        alertController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(alertController, animated: true, completion: {
+            self.previewCollectionView.reloadData()
         })
     }
     
