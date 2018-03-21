@@ -17,6 +17,18 @@ class HomeViewController: UIViewController {
     
     let Db = DbContext.sharedInstance
     var alertController: UIAlertController? = nil
+    var mindMaps: [MindMapSection] {
+        
+        get {
+            // Return the mind maps from core data
+            // Pass in the sorting parameter
+            return Db.fetchAllMindMaps()
+        }
+        
+        set {
+            self.mindMaps = newValue
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
