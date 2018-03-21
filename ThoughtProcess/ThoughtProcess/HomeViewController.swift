@@ -14,6 +14,7 @@ private let reuseIdentifer = "Cell"
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var previewCollectionView: UICollectionView!
+    
     let Db = DbContext.sharedInstance
     var alertController: UIAlertController? = nil
 
@@ -49,7 +50,45 @@ class HomeViewController: UIViewController {
             return title1 < title2
         })
     }
-}
+    
+    
+    @IBAction func createNewMindMap(_ sender: UIButton) {
+        // Create an alert for the name of Mind Map
+        // Create an alert controller for the section deletion
+        let alertController = UIAlertController(title: "Name of New Mind Map", message: "Enter the Name of your New Mind Map", preferredStyle: UIAlertControllerStyle.alert)
+        var title = Date().description
+        
+        // Have the User enter the mind map name
+        let enterName = UIAlertAction(title: "Name Input", style: .default, handler: { (alertAction) in
+            
+            guard let textField = alertController.textFields?.first else { return }
+            guard let name = textField.text else { return }
+            title = name
+            
+            // Create a new view controller
+            guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
+            
+            // Set up the controller with the correct title
+            controller.title = title
+            
+            // Show the controller
+            self.navigationController?.pushViewController(controller, animated: true)
+            
+        })
+        
+        
+        alertController.addTextField(configurationHandler: {(textField) in
+            textField.placeholder = "Enter new Mind Map Name"
+        })
+        let deleteAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.destructive, handler: { (alertAction) in
+            
+        })
+        
+        alertController.addAction(enterName)
+        alertController.addAction(deleteAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }}
     
 // MARK: - Navigation
 extension HomeViewController {
@@ -58,36 +97,10 @@ extension HomeViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        guard let vc = segue.destination as? ViewAndEditViewController else { return }
-        
-        // Create an alert for the name of Mind Map
-        // Create an alert controller for the section deletion
-        let alertController = UIAlertController(title: "Name of New Mind Map", message: "Enter the Name of your New Mind Map", preferredStyle: UIAlertControllerStyle.alert)
-        
-        // Have the User enter the mind map name
-        let enterName = UIAlertAction(title: "Name Input", style: .default, handler: { (alertAction) in
-            let textField = alertController.textFields![0] as UITextField
-            print(textField)
-            })
-        
-        
-        alertController.addTextField(configurationHandler: {(textField) in
-            textField.placeholder = "Enter new Mind Map Name"
-        })
-        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (alertAction) in
-            
-            self.previewCollectionView.reloadData()
-            
-        })
-        
-        alertController.addAction(enterName)
-        alertController.addAction(deleteAction)
-        self.alertController = alertController
-        
-        // Present the alert
-        self.present(self.alertController!, animated: true, completion: nil)
+        // guard let vc = segue.destination as? ViewAndEditViewController else { return }
         
     }
+   
  
 }
 
@@ -104,8 +117,11 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         // Get the view that from the file path
-        let filePath = Db.fetchAllFilePaths()
-        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath[indexPath.row]) as? UIView else { return }
+        let mindMap = Db.fetchAllMindMaps()[indexPath.row]
+        guard let filePath: String = mindMap.filePath else { return }
+        guard let title: String = mindMap.title else { return }
+        
+        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? UIView else { return }
         print(indexPath.row)
         
         // Create a new view controller
@@ -113,7 +129,8 @@ extension HomeViewController: UICollectionViewDelegate {
         
         // Set up the controller
         controller.customView = view
-        controller.path = filePath[indexPath.row]
+        controller.path = filePath
+        controller.title = title
         
         // Show the controller
         self.navigationController?.pushViewController(controller, animated: true)
@@ -177,12 +194,6 @@ extension HomeViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (alertAction) in
-            
-            // Get the section to delete
-            guard let section = recognizer.view else { return }
-            
-            // Remove the section from the view hiearchy
-            section.removeFromSuperview()
             
             // Remove the mind map
             self.Db.deleteMindMapSection(filePath: filePath)

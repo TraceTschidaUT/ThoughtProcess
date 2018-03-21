@@ -55,7 +55,7 @@ final class DbContext {
         return filePaths
     }
     
-    func createMindMapSection(newFilePath: String) {
+    func createMindMapSection(title:String, newFilePath: String) {
         
         // Create an entity
         guard let managedContext = self.managedContext else { return }
@@ -65,6 +65,7 @@ final class DbContext {
         let mindMapSection = NSManagedObject(entity: entity, insertInto: managedContext)
         mindMapSection.setValue(newFilePath, forKey: "filePath")
         mindMapSection.setValue(Date(), forKey: "dateCreated")
+        mindMapSection.setValue(title, forKey: "title")
         
         // Commit the Changes
         do {

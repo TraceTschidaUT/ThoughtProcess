@@ -23,7 +23,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create New"/>
                                 <connections>
-                                    <segue destination="fMK-fp-JgY" kind="show" id="Vgg-hz-RBH"/>
+                                    <action selector="createNewMindMap:" destination="9Xg-3C-pU7" eventType="touchUpInside" id="hy1-7o-syH"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyr-LO-MEo">

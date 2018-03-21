@@ -94,7 +94,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         UIMenuController.shared.menuItems = [highlight]
         
         // Title
-        self.navigationItem.title = "New Mind Map"
+        self.navigationItem.title = self.title!
         
         // Save the view data
         guard let path = self.path else { return }
@@ -104,7 +104,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         if saved && self.customView == nil {
             
             // Create a new entity
-            Db.createMindMapSection(newFilePath: path)
+            Db.createMindMapSection(title: self.title!, newFilePath: path)
         }
         
         
