@@ -9,6 +9,13 @@
 import UIKit
 import CoreData
 
+enum MindMapSorting {
+    case ascendingAlpha
+    case descendingAlpha
+    case ascendingDate
+    case descendingDate
+}
+
 private let reuseIdentifer = "Cell"
 
 class HomeViewController: UIViewController {
@@ -17,16 +24,63 @@ class HomeViewController: UIViewController {
     
     let Db = DbContext.sharedInstance
     var alertController: UIAlertController? = nil
+    var sorting: MindMapSorting = .ascendingAlpha
     var mindMaps: [MindMapSection] {
         
         get {
+            
+            var dbMindMaps = Db.fetchAllMindMaps()
+            
             // Return the mind maps from core data
-            // Pass in the sorting parameter
-            return Db.fetchAllMindMaps()
-        }
-        
-        set {
-            self.mindMaps = newValue
+            if self.sorting == MindMapSorting.ascendingAlpha {
+                
+                // sort the array by ascending name
+                dbMindMaps = dbMindMaps.sorted(by: {(mM1, mM2) in
+                    
+                    guard let title1 = mM1.title else { return false }
+                    guard let title2 = mM2.title else { return true }
+                    
+                    return title1 < title2
+                })
+            }
+                
+            else if self.sorting == .ascendingDate {
+                
+                // sort the array by ascending date
+                dbMindMaps = dbMindMaps.sorted(by: {(mM1, mM2) in
+                    
+                    guard let date1 = mM1.dateCreated else { return false }
+                    guard let date2 = mM2.dateCreated else { return true }
+                    
+                    return date1 > date2
+                })
+            }
+            
+            else if self.sorting == .descendingAlpha {
+                
+                // sort the array by descending name
+                dbMindMaps = dbMindMaps.sorted(by: {(mM1, mM2) in
+                    
+                    guard let title1 = mM1.title else { return false }
+                    guard let title2 = mM2.title else { return true }
+                    
+                    return title1 > title2
+                })
+            }
+            
+            else if self.sorting == .descendingDate {
+                
+                // sort the array by descending date
+                dbMindMaps = dbMindMaps.sorted(by: {(mM1, mM2) in
+                    
+                    guard let date1 = mM1.dateCreated else { return false }
+                    guard let date2 = mM2.dateCreated else { return true }
+                    
+                    return date1 < date2
+                })
+            }
+            
+            return dbMindMaps
         }
     }
 
@@ -50,26 +104,44 @@ class HomeViewController: UIViewController {
     
     @IBAction func sortByButton(_ sender: UIButton) {
         
-        // Get all of the mind maps
-        let mindMaps = Db.fetchAllMindMaps()
-        
         // Create an action sheet for the different sorting methods
         let alertController = UIAlertController(title: "Sort Mind Maps", message: "Choose how you want your Mind Maps sorted", preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let ascendingTitle = UIAlertAction(title: "Ascending Title", style: UIAlertActionStyle.default, handler: { (alertAction) in
-            // Sort the mind maps accordingly
-            let ascendingTitleSorted = mindMaps.sorted(by: {(mm1, mm2) in
-                
-                guard let title1 = mm1.title else { return false }
-                guard let title2 = mm2.title else { return true }
-                
-                return title1 < title2
-            })
             
-            print(ascendingTitleSorted.first?.title)
+            // Change the sorting and reload the data
+            self.sorting = MindMapSorting.ascendingAlpha
+            self.previewCollectionView.reloadData()
         })
         
+        let ascendingDate = UIAlertAction(title: "Ascending Date", style: .default, handler: { (alertAction) in
+            
+            // Change the sorting and reload the data
+            self.sorting = MindMapSorting.ascendingDate
+            self.previewCollectionView.reloadData()
+        })
+        
+        let descendingTitle = UIAlertAction(title: "Descending Title", style: .default, handler: { (alertAction) in
+            
+            // Change the sorting and reload the data
+            self.sorting = MindMapSorting.descendingAlpha
+            self.previewCollectionView.reloadData()
+        })
+        
+        let descendingDate = UIAlertAction(title: "Descending Date", style: .default, handler: { (alertAction) in
+            
+            // Change the sorting and reload the data
+            self.sorting = MindMapSorting.descendingDate
+            self.previewCollectionView.reloadData()
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         alertController.addAction(ascendingTitle)
+        alertController.addAction(ascendingDate)
+        alertController.addAction(descendingTitle)
+        alertController.addAction(descendingDate)
+        alertController.addAction(cancel)
         alertController.popoverPresentationController?.sourceView = self.view
         
         self.present(alertController, animated: true, completion: {
@@ -143,7 +215,7 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         // Get the view that from the file path
-        let mindMap = Db.fetchAllMindMaps()[indexPath.row]
+        let mindMap = self.mindMaps[indexPath.row]
         guard let filePath: String = mindMap.filePath else { return }
         guard let title: String = mindMap.title else { return }
         
