@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		459E21F02063260A0094F827 /* createAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459E21EF2063260A0094F827 /* createAccount.storyboard */; };
+		459E21F2206326680094F827 /* createAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E21F1206326680094F827 /* createAccountViewController.swift */; };
+		459E21F420633F890094F827 /* login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459E21F320633F890094F827 /* login.storyboard */; };
+		459E21F620633FC30094F827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E21F520633FC30094F827 /* LoginViewController.swift */; };
 		C859E19D205839FA003627AA /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C859E19C205839FA003627AA /* Strings.swift */; };
 		C8713151205193DC005D05AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8713150205193DC005D05AE /* AppDelegate.swift */; };
 		C8713156205193DC005D05AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8713154205193DC005D05AE /* Main.storyboard */; };
@@ -23,6 +27,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		459E21EF2063260A0094F827 /* createAccount.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = createAccount.storyboard; sourceTree = "<group>"; };
+		459E21F1206326680094F827 /* createAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createAccountViewController.swift; sourceTree = "<group>"; };
+		459E21F320633F890094F827 /* login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = login.storyboard; sourceTree = "<group>"; };
+		459E21F520633FC30094F827 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C859E19C205839FA003627AA /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		C871314D205193DC005D05AE /* ThoughtProcess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThoughtProcess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8713150205193DC005D05AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,11 +84,15 @@
 				C8E07D25205980D30002D9B8 /* HomeViewController.swift */,
 				C8E07D29205988B90002D9B8 /* HomePreviewCollectionViewCell.swift */,
 				C87131672051951F005D05AE /* ViewAndEdit.storyboard */,
+				459E21EF2063260A0094F827 /* createAccount.storyboard */,
+				459E21F1206326680094F827 /* createAccountViewController.swift */,
 				C871316D20519DC4005D05AE /* ViewAndEditViewController.swift */,
 				C871316F2051A95F005D05AE /* FlowMapView.swift */,
 				C871315C205193DC005D05AE /* LaunchScreen.storyboard */,
 				C8713157205193DC005D05AE /* ThoughtProcess.xcdatamodeld */,
 				C8A75D302061570E00B9B837 /* DbContext.swift */,
+				459E21F320633F890094F827 /* login.storyboard */,
+				459E21F520633FC30094F827 /* LoginViewController.swift */,
 				C871315F205193DC005D05AE /* Info.plist */,
 				C871315A205193DC005D05AE /* Assets.xcassets */,
 				C859E19C205839FA003627AA /* Strings.swift */,
@@ -151,7 +163,9 @@
 				C87131682051951F005D05AE /* ViewAndEdit.storyboard in Resources */,
 				C871315B205193DC005D05AE /* Assets.xcassets in Resources */,
 				C8713156205193DC005D05AE /* Main.storyboard in Resources */,
+				459E21F02063260A0094F827 /* createAccount.storyboard in Resources */,
 				C871316620519489005D05AE /* Home.storyboard in Resources */,
+				459E21F420633F890094F827 /* login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				459E21F2206326680094F827 /* createAccountViewController.swift in Sources */,
 				C8E07D2A205988B90002D9B8 /* HomePreviewCollectionViewCell.swift in Sources */,
 				C87131702051A95F005D05AE /* FlowMapView.swift in Sources */,
 				C871316E20519DC4005D05AE /* ViewAndEditViewController.swift in Sources */,
@@ -169,6 +184,7 @@
 				C859E19D205839FA003627AA /* Strings.swift in Sources */,
 				C8713159205193DC005D05AE /* ThoughtProcess.xcdatamodeld in Sources */,
 				C8713151205193DC005D05AE /* AppDelegate.swift in Sources */,
+				459E21F620633FC30094F827 /* LoginViewController.swift in Sources */,
 				C8E07D26205980D30002D9B8 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

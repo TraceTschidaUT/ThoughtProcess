@@ -10,6 +10,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--createAccount-->
+        <scene sceneID="pcY-qc-38p">
+            <objects>
+                <viewControllerPlaceholder storyboardName="createAccount" id="6XD-tS-aMP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RxS-oG-QSJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-393" y="12"/>
+        </scene>
         <!--Home-->
         <scene sceneID="Swa-p1-pQE">
             <objects>
@@ -32,6 +40,14 @@
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <segue destination="4D3-Nj-4sD" kind="show" id="VXe-ni-l2B"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Oe-tJ-fWb">
+                                <rect key="frame" x="149" y="323" width="57" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Account"/>
+                                <connections>
+                                    <segue destination="6XD-tS-aMP" kind="show" id="1lh-fo-hn9"/>
                                 </connections>
                             </button>
                         </subviews>
