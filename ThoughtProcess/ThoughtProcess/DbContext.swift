@@ -131,4 +131,50 @@ final class DbContext {
         // Return the mind maps
         return mindMaps
     }
+    
+    func createUser(date:Date, firstName:String, lastName:String, username:String, password:String, email:String){
+        
+        // Create an entity
+        guard let managedContext = self.managedContext else { return }
+        guard let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext) else { return }
+        
+        // Insert the new section into the Db
+        let newUser = NSManagedObject(entity: entity, insertInto: managedContext)
+            newUser.setValue(firstName, forKey: "firstName")
+            newUser.setValue(lastName, forKey: "lastName")
+            newUser.setValue(password, forKey: "password")
+            newUser.setValue(email, forKey: "email")
+            newUser.setValue(date, forKey: "dateOfBirth")
+        
+        // Commit the Changes
+        do {
+            try self.managedContext?.save()
+        } catch {
+            let nserror = error as NSError
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func fetchUser() -> User? {
+        
+        var usersArray: [User] = []
+        
+        // Fetch the Core Data for the MindMapSection info
+        let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "User")
+        
+        do {
+            
+            // Get all of the users
+            guard let users = try managedContext?.fetch(fetchReqeust) as? [User] else { return nil }
+            usersArray = users
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return nil
+        }
+        
+        // Return the mind maps
+        guard let user = usersArray.first else { return nil}
+        return user
+    }
 }
