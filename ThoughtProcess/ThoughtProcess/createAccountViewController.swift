@@ -52,15 +52,23 @@ class createAccountViewController: UIViewController {
         guard let lastname = lastNametxt.text else { return }
         guard let username = usernametxt.text else { return }
         guard let password = passwordtxt.text else { return }
+        guard let confirmPassword = confirmPasswordtxt.text else { return }
         guard let email = emailtxt.text else { return }
         
-        Db.createUser(date: self.dob, firstName: firstname, lastName: lastname, username: username, password: password, email: email)
+        if(password == confirmPassword){
         
-        guard let user =  Db.fetchUser() else { return }
+            Db.createUser(date: self.dob, firstName: firstname, lastName: lastname, username: username, password: password, email: email)
         
-        print(user.dateOfBirth)
-        print(user.firstName)
-
+            // Create a View Controller and present it
+            guard let controller = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "Home") as?HomeViewController else { return }
+            
+            let navigationController = UINavigationController(rootViewController: controller)
+        
+            // Present the controller
+            self.present(navigationController, animated: true, completion: nil)
+        } else{
+            errorMessagetxt.text = "Passwords do not match"
+        }
     }
     
     /*

@@ -134,8 +134,31 @@ final class DbContext {
     
     func createUser(date:Date, firstName:String, lastName:String, username:String, password:String, email:String){
         
-        // Create an entity
+        // Get the managed context
         guard let managedContext = self.managedContext else { return }
+        
+        // Create a fetch request to the delete the user existing
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+        
+        // Get the MindMapSections
+        do {
+            // Get all of the sections
+            guard let users: [User] = try managedContext.fetch(fetchRequest) as? [User] else { return }
+            
+            // Loop through and find the section with the correct string
+            for user in users {
+                
+                // Delete the section
+                managedContext.delete(user)
+                try managedContext.save()
+            }
+            
+        } catch let error as NSError {
+            
+            print("Could not delete \(error), \(error.userInfo)")
+        }
+        
+        // Create an entity
         guard let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext) else { return }
         
         // Insert the new section into the Db
@@ -145,6 +168,7 @@ final class DbContext {
             newUser.setValue(password, forKey: "password")
             newUser.setValue(email, forKey: "email")
             newUser.setValue(date, forKey: "dateOfBirth")
+            newUser.setValue(username, forKey: "username")
         
         // Commit the Changes
         do {
@@ -177,4 +201,5 @@ final class DbContext {
         guard let user = usersArray.first else { return nil}
         return user
     }
+    
 }

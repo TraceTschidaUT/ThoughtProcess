@@ -9,16 +9,41 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
     
+    let Db = DbContext.sharedInstance
+
     @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var paswordTextFiel: UITextField!
+    @IBOutlet weak var paswordTextField: UITextField!
+    @IBOutlet weak var messageText: UILabel!
+    
     
     
     @IBAction func loginClicked(_ sender: Any) {
         
+        guard let user = Db.fetchUser() else{ return }
+        
+        if(user.password == paswordTextField.text && user.username == usernameTextField.text){
+            
+            // Create a View Controller and present it
+            guard let controller = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "Home") as?HomeViewController else { return }
+            
+            let navigationController = UINavigationController(rootViewController: controller)
+            
+            // Present the controller
+            self.present(navigationController, animated: true, completion: nil)
+            
+        } else{
+            messageText.text = "User not found"
+        }
     }
     
+    @IBAction func createAccountClicked(_ sender: UIButton) {
+        // Create a View Controller and present it
+        guard let controller = UIStoryboard(name: "createAccount", bundle: nil).instantiateInitialViewController() as? createAccountViewController else { return }
+        
+        // Present the controller
+        self.present(controller, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
