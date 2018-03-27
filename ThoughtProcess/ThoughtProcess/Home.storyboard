@@ -13,7 +13,7 @@
         <!--Home View Controller-->
         <scene sceneID="S7a-pM-YGp">
             <objects>
-                <viewController id="9Xg-3C-pU7" customClass="HomeViewController" customModule="ThoughtProcess" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" id="9Xg-3C-pU7" customClass="HomeViewController" customModule="ThoughtProcess" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qcj-Fa-hJd">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0Mu-Qo-Evz">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -10,12 +10,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="IVh-a6-M5e">
             <objects>
-                <viewController id="0Mu-Qo-Evz" sceneMemberID="viewController">
+                <viewController id="0Mu-Qo-Evz" customClass="MainViewController" customModule="ThoughtProcess" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VI9-ZO-HRj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkK-85-l0I">
@@ -30,9 +30,6 @@
                                 <rect key="frame" x="171" y="192" width="33" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="User"/>
-                                <connections>
-                                    <segue destination="2LN-hT-Q30" kind="show" id="i6I-vo-w7V"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -43,13 +40,13 @@
             </objects>
             <point key="canvasLocation" x="-29" y="67"/>
         </scene>
-        <!--createAccount-->
-        <scene sceneID="0vq-Q8-D16">
+        <!--login-->
+        <scene sceneID="w2W-Z3-Sbe">
             <objects>
-                <viewControllerPlaceholder storyboardName="createAccount" id="2LN-hT-Q30" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ndM-Lb-iHv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="login" id="E1N-dg-4yA" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="laO-Ge-ncT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="502" y="-108"/>
+            <point key="canvasLocation" x="581" y="-34"/>
         </scene>
         <!--Home-->
         <scene sceneID="LNQ-Rh-cpc">
