@@ -107,7 +107,7 @@ class HomeViewController: UIViewController {
         // Create an action sheet for the different sorting methods
         let alertController = UIAlertController(title: "Sort Mind Maps", message: "Choose how you want your Mind Maps sorted", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let ascendingTitle = UIAlertAction(title: "Ascending Title", style: UIAlertActionStyle.default, handler: { (alertAction) in
+        let ascendingTitle = UIAlertAction(title: "Z to A", style: UIAlertActionStyle.default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.ascendingAlpha
@@ -121,7 +121,7 @@ class HomeViewController: UIViewController {
             self.previewCollectionView.reloadData()
         })
         
-        let descendingTitle = UIAlertAction(title: "Descending Title", style: .default, handler: { (alertAction) in
+        let descendingTitle = UIAlertAction(title: "A to Z", style: .default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.descendingAlpha
@@ -142,7 +142,8 @@ class HomeViewController: UIViewController {
         alertController.addAction(descendingTitle)
         alertController.addAction(descendingDate)
         alertController.addAction(cancel)
-        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceView = sender
+        alertController.popoverPresentationController?.sourceRect = sender.bounds
         
         self.present(alertController, animated: true, completion: {
             self.previewCollectionView.reloadData()
