@@ -96,6 +96,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         // Title
         self.navigationItem.title = self.title!
         
+        
         // Save the view data
         guard let path = self.path else { return }
         let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
@@ -379,8 +380,8 @@ extension ViewAndEditViewController {
             view.center.y = canvas.bounds.minY + view.frame.size.height / 2
         }
             
-        else if newFrame.maxY > canvas.bounds.maxY {
-            view.center.y = canvas.bounds.maxY - view.frame.size.height / 2
+        else if newFrame.maxY + 10.0 > canvas.bounds.maxY {
+            view.center.y = canvas.bounds.maxY - view.frame.size.height / 2 - 10
         }
         
         // Reset the translation to 0

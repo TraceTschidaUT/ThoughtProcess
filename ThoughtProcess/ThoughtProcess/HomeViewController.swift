@@ -93,7 +93,6 @@ class HomeViewController: UIViewController {
         self.navigationController?.delegate = self
         
         // Configure the navigation bar
-        self.navigationController?.navigationBar.barTintColor = UIColor.blue
         self.navigationItem.title = "Mind Map Library"
     }
     
