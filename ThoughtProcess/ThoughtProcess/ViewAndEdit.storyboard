@@ -19,8 +19,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5v-6z-F2c">
+                                <rect key="frame" x="20" y="119" width="728" height="836"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNe-js-3Jr">
+                                        <rect key="frame" x="341" y="424" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xak-Sh-Lg1">
+                                        <rect key="frame" x="8" y="8" width="712" height="891"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="891" id="dKQ-v6-O5d"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="xak-Sh-Lg1" secondAttribute="bottom" constant="-63" id="F8H-u3-aF1"/>
+                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="leading" secondItem="U5v-6z-F2c" secondAttribute="leadingMargin" id="N47-8o-tqg"/>
+                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="trailing" secondItem="U5v-6z-F2c" secondAttribute="trailingMargin" id="Rtr-hs-YlB"/>
+                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="centerX" secondItem="eNe-js-3Jr" secondAttribute="centerX" id="TEY-xm-bhJ"/>
+                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="top" secondItem="U5v-6z-F2c" secondAttribute="topMargin" id="YAN-bh-pGC"/>
+                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="centerX" secondItem="U5v-6z-F2c" secondAttribute="centerX" id="dJS-87-XcK"/>
+                                    <constraint firstItem="eNe-js-3Jr" firstAttribute="top" secondItem="U5v-6z-F2c" secondAttribute="top" constant="424" id="oKr-0j-2pr"/>
+                                </constraints>
+                            </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" tag="-1" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="Z5N-Z0-xw9">
-                                <rect key="frame" x="84" y="75" width="601" height="44"/>
+                                <rect key="frame" x="126" y="75" width="517" height="44"/>
                                 <items>
                                     <barButtonItem title="Add Section" id="i2r-1c-QHu">
                                         <connections>
@@ -39,7 +64,6 @@
                                             <action selector="changeTextButton:" destination="N8N-5x-kPT" id="Pjz-PO-F5S"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Highlight" id="r7t-Le-fQ2"/>
                                     <barButtonItem title="Insert" id="KpS-ws-scl">
                                         <connections>
                                             <action selector="insertButton:" destination="N8N-5x-kPT" id="0Pj-C2-LAw"/>
@@ -48,33 +72,11 @@
                                     <barButtonItem title="Share" width="79.5" id="9Zp-dh-ftH"/>
                                 </items>
                             </toolbar>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5v-6z-F2c">
-                                <rect key="frame" x="20" y="119" width="728" height="836"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNe-js-3Jr">
-                                        <rect key="frame" x="341" y="424" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xak-Sh-Lg1">
-                                        <rect key="frame" x="8" y="8" width="712" height="891"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="xak-Sh-Lg1" secondAttribute="trailing" constant="8" id="Ap7-8I-72k"/>
-                                    <constraint firstAttribute="bottom" secondItem="xak-Sh-Lg1" secondAttribute="bottom" constant="-63" id="Pyt-5U-iLt"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="centerY" secondItem="U5v-6z-F2c" secondAttribute="centerY" constant="35.5" id="ZTH-yi-otI"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="centerX" secondItem="U5v-6z-F2c" secondAttribute="centerX" id="a0M-kA-HUm"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="leading" secondItem="U5v-6z-F2c" secondAttribute="leading" constant="8" id="mh3-cb-zdf"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="top" secondItem="U5v-6z-F2c" secondAttribute="top" constant="8" id="v8S-4f-EXh"/>
-                                </constraints>
-                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="U5v-6z-F2c" firstAttribute="centerX" secondItem="Z5N-Z0-xw9" secondAttribute="centerX" id="19e-sH-OUY"/>
-                            <constraint firstItem="Z5N-Z0-xw9" firstAttribute="leading" secondItem="w5a-PQ-MYn" secondAttribute="leading" constant="84" id="4zj-84-0cd"/>
+                            <constraint firstItem="U5v-6z-F2c" firstAttribute="centerX" secondItem="Z5N-Z0-xw9" secondAttribute="centerX" constant="-0.5" id="19e-sH-OUY"/>
+                            <constraint firstItem="Z5N-Z0-xw9" firstAttribute="leading" secondItem="w5a-PQ-MYn" secondAttribute="leading" constant="126" id="4zj-84-0cd"/>
                             <constraint firstAttribute="bottom" secondItem="U5v-6z-F2c" secondAttribute="bottom" constant="69" id="Gg4-PZ-4AZ"/>
                             <constraint firstItem="U5v-6z-F2c" firstAttribute="leading" secondItem="7es-LT-Y9C" secondAttribute="leadingMargin" id="L00-bE-EfH"/>
                             <constraint firstItem="U5v-6z-F2c" firstAttribute="top" secondItem="7es-LT-Y9C" secondAttribute="top" constant="119" id="QgU-Px-W0S"/>
