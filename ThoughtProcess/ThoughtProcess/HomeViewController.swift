@@ -144,9 +144,7 @@ class HomeViewController: UIViewController {
         alertController.popoverPresentationController?.sourceView = sender
         alertController.popoverPresentationController?.sourceRect = sender.bounds
         
-        self.present(alertController, animated: true, completion: {
-            self.previewCollectionView.reloadData()
-        })
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
@@ -260,7 +258,7 @@ extension HomeViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! HomePreviewCollectionViewCell
         
         // Get the correct mind map
-        let mindMap = Db.fetchAllMindMaps()[indexPath.row]
+        let mindMap = self.mindMaps[indexPath.row]
         
         // Add a long press gesture recognizer
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))

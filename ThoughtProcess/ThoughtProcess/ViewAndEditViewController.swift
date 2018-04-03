@@ -103,7 +103,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("View will disappear: cleaning up and taking screenshot")
+        print("View and Edit View: \n\t Func: viewWillDisappear: cleaning up and taking screenshot")
         
         // Create new image context with the same size of the view
         UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0.0)
