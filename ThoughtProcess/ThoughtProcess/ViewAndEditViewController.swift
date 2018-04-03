@@ -102,6 +102,27 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        print("View will disappear: cleaning up and taking screenshot")
+        
+        // Create new image context with the same size of the view
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0.0)
+        
+        // Draw the view and subview into the context
+        guard let currentContext = UIGraphicsGetCurrentContext() else { return }
+        self.view.layer.render(in: currentContext)
+        
+        // Create an image from the context
+        guard let image: UIImage = UIGraphicsGetImageFromCurrentImageContext() else { return }
+        
+        // Close the Context
+        UIGraphicsEndImageContext()
+        
+        // Save the image to the mind map section
+        guard let id = self.id else { return }
+        Db.addImageToMindMap(image: image, id: id)
+    }
+    
     // UI Methods
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
         

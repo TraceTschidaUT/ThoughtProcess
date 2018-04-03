@@ -314,4 +314,42 @@ final class DbContext {
         
         return selectedMindMap
     }
+    
+    func addImageToMindMap(image: UIImage, id: UUID) {
+        
+        var mindMaps: [MindMapSection] = []
+        
+        // Get the managed context
+        guard let managedContext = self.managedContext else { return }
+        
+        // Fetch the Core Data for the MindMapSection info
+        let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "MindMapSection")
+        
+        do {
+            guard let mindMapsSections = try managedContext.fetch(fetchReqeust) as? [MindMapSection] else { return }
+            mindMaps.append(contentsOf: mindMapsSections)
+            
+        }
+        catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        for map in mindMaps {
+            
+            if (map.id == id) {
+                
+                map.setValue(image, forKey: "image")
+                break
+            }
+        }
+        
+        // Update the mangaged context
+        do {
+            try managedContext.save()
+        }
+        catch let error as NSError {
+            print("Could not save in updateMindMapSection", "\(error)")
+        }
+        
+    }
 }

@@ -259,8 +259,8 @@ extension HomeViewController: UICollectionViewDataSource {
         // Get the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! HomePreviewCollectionViewCell
         
-        // Put the corresponding image on the cell
-        cell.previewImageView.image = UIImage(named: "image1")
+        // Get the correct mind map
+        let mindMap = Db.fetchAllMindMaps()[indexPath.row]
         
         // Add a long press gesture recognizer
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -268,6 +268,11 @@ extension HomeViewController: UICollectionViewDataSource {
         longPress.numberOfTouchesRequired = 1
         longPress.minimumPressDuration = CFTimeInterval(1)
         cell.addGestureRecognizer(longPress)
+        
+        
+        // Put the corresponding image on the cell
+        guard let image = mindMap.image as? UIImage else { return cell }
+        cell.previewImageView.image = image
         
         // Return the finished cell
         return cell  

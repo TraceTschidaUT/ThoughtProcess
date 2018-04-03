@@ -17,21 +17,6 @@
                     <view key="view" contentMode="scaleToFill" id="VI9-ZO-HRj">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkK-85-l0I">
-                                <rect key="frame" x="167" y="318" width="41" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Home"/>
-                                <connections>
-                                    <segue destination="dlG-Lo-mdU" kind="show" id="g60-e9-Vrv"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCG-xl-Kwm">
-                                <rect key="frame" x="171" y="192" width="33" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="User"/>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Yl6-fl-ypa"/>
                     </view>
@@ -39,22 +24,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fu1-hK-CqG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-29" y="67"/>
-        </scene>
-        <!--login-->
-        <scene sceneID="w2W-Z3-Sbe">
-            <objects>
-                <viewControllerPlaceholder storyboardName="login" id="E1N-dg-4yA" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="laO-Ge-ncT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="581" y="-34"/>
-        </scene>
-        <!--Home-->
-        <scene sceneID="LNQ-Rh-cpc">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Home" id="dlG-Lo-mdU" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H8S-GX-MUv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="519" y="92"/>
         </scene>
     </scenes>
 </document>
