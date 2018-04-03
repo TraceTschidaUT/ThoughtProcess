@@ -35,9 +35,12 @@ class ArrowView: UIView {
     
     var viewColor = UIColor.gray {
         didSet {
+            self.savedBackgroundColor = nil
             self.setNeedsDisplay()
         }
     }
+    
+    var savedBackgroundColor: UIColor? = nil
    
     var fontType: FontType = FontType(name: "Body", value: 0, type: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)) {
         didSet {
@@ -65,15 +68,14 @@ class ArrowView: UIView {
         print("in init")
         let frame = aDecoder.decodeCGRect(forKey: "frame")
         let text = aDecoder.decodeObject(forKey: "text") as? UITextView ?? UITextView()
-        let backgroundColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.lightGray
-        print(text.text)
+        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.lightGray
         
         // Call the main init to build out the View
         self.init(frame: frame)
         
         // Set the necessary properties
         self.textView = text
-        self.backgroundColor = backgroundColor
+        self.savedBackgroundColor = viewColor
     }
     
     override func encode(with aCoder: NSCoder) {
@@ -81,7 +83,7 @@ class ArrowView: UIView {
         super.encode(with: aCoder)
         aCoder.encode(self.frame, forKey: "frame")
         aCoder.encode(self.textView!, forKey: "text")
-        aCoder.encode(self.backgroundColor, forKey: "backgroundColor")
+        aCoder.encode(self.viewColor, forKey: "backgroundColor")
     }
     
     override func draw(_ rect: CGRect) {
@@ -107,8 +109,13 @@ class ArrowView: UIView {
         path.addLine(to: p5)
         path.close()
         
-        // Set the color for the object
-        viewColor.set()
+        // Set the background color
+        if savedBackgroundColor != nil {
+            self.savedBackgroundColor?.set()
+        }
+        else {
+            viewColor.set()
+        }
         
         // fill the path
         path.fill()
@@ -128,7 +135,7 @@ class ArrowView: UIView {
         let textViewText: NSAttributedString = self.textView?.attributedText ?? NSAttributedString()
         textView.attributedText = textViewText
         
-        // Configure the background color
+        // Configure the textview's background color
         let textViewBackgroundColor: UIColor = self.textView?.backgroundColor ?? self.textViewBackgroundColor.type
         textView.backgroundColor = textViewBackgroundColor
         
