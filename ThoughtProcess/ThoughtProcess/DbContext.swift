@@ -55,35 +55,42 @@ final class DbContext {
         return filePaths
     }
     
-    func createMindMapSection(title:String, newFilePath: String) {
+    func createMindMapSection(title: String, view: Data, mindMapID: UUID) {
         
         // Create an entity
         guard let managedContext = self.managedContext else { return }
         guard let entity = NSEntityDescription.entity(forEntityName: "MindMapSection", in: managedContext) else { return }
         
-        // Insert the new section into the Db
-        let mindMapSection = NSManagedObject(entity: entity, insertInto: managedContext)
-        mindMapSection.setValue(newFilePath, forKey: "filePath")
+        let mindMapSection = MindMapSection(entity: entity, insertInto: managedContext)
+        mindMapSection.setValue(view, forKey: "view")
         mindMapSection.setValue(Date(), forKey: "dateCreated")
         mindMapSection.setValue(title, forKey: "title")
+        mindMapSection.setValue(mindMapID, forKey: "id")
+        
+        // Get the User
+        let defaults = UserDefaults.standard
+        guard let stringID = defaults.string(forKey: "id") else { return }
+        guard let id = UUID(uuidString: stringID) else { return }
+        guard let user = self.fetchUser(id: id) else { return }
+        mindMapSection.user = user
+        
         
         // Commit the Changes
         do {
             try self.managedContext?.save()
-        } catch {
+        }
+        catch {
             let nserror = error as NSError
             print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
     
-    func deleteMindMapSection(filePath toDelete: String) {
-        
+    func deleteMindMapSection(id: UUID) {
         // Get the managed context
         guard let managedContext = self.managedContext else { return }
         
         // Create a fetch request to the delete the record
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "MindMapSection")
-        fetchRequest.predicate = NSPredicate(format: "filePath == %@", toDelete)
         
         // Get the MindMapSections
         do {
@@ -94,7 +101,7 @@ final class DbContext {
             for section in sections {
                 
                 // Delete the section
-                if section.filePath == toDelete {
+                if section.id == id {
                     managedContext.delete(section)
                     try managedContext.save()
                     break
@@ -112,6 +119,11 @@ final class DbContext {
         // Create an Array to hold MindMaps
         var mindMaps: [MindMapSection] = []
         
+        // Get the logged-in user's id
+        let defaults = UserDefaults.standard
+        guard let stringID = defaults.string(forKey: "id") else { return [] }
+        let id = UUID(uuidString: stringID)
+        
         // Fetch the Core Data for the MindMapSection info
         let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "MindMapSection")
         
@@ -120,10 +132,13 @@ final class DbContext {
             // Get all of the mind maps
             guard let sections: [MindMapSection] = try managedContext?.fetch(fetchReqeust) as? [MindMapSection] else { return mindMaps }
             
-            // Append the mind maps
-            mindMaps.append(contentsOf: sections)
-                
-            } catch let error as NSError {
+            for map in sections {
+                if map.user?.id == id {
+                    mindMaps.append(map)
+                }
+            }
+        }
+        catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
                 return mindMaps
         }
@@ -137,31 +152,11 @@ final class DbContext {
         // Get the managed context
         guard let managedContext = self.managedContext else { return }
         
-        // Create a fetch request to the delete the user existing
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
-        
-        // Get the MindMapSections
-        do {
-            // Get all of the sections
-            guard let users: [User] = try managedContext.fetch(fetchRequest) as? [User] else { return }
-            
-            // Loop through and find the section with the correct string
-            for user in users {
-                
-                // Delete the section
-                managedContext.delete(user)
-                try managedContext.save()
-            }
-            
-        } catch let error as NSError {
-            
-            print("Could not delete \(error), \(error.userInfo)")
-        }
-        
         // Create an entity
         guard let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext) else { return }
         
         // Insert the new section into the Db
+        let id = UUID()
         let newUser = NSManagedObject(entity: entity, insertInto: managedContext)
             newUser.setValue(firstName, forKey: "firstName")
             newUser.setValue(lastName, forKey: "lastName")
@@ -169,17 +164,23 @@ final class DbContext {
             newUser.setValue(email, forKey: "email")
             newUser.setValue(date, forKey: "dateOfBirth")
             newUser.setValue(username, forKey: "username")
+            newUser.setValue(id, forKey: "id")
+        
+        // Set the defaults
+        UserDefaults.standard.set(id.uuidString, forKey: "id")
+        UserDefaults.standard.set(true, forKey: "loggedIn")
         
         // Commit the Changes
         do {
             try self.managedContext?.save()
+            print("\(Date()): User created")
         } catch {
             let nserror = error as NSError
             print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
     
-    func fetchUser() -> User? {
+    func fetchUser(userName: String, password: String) -> User? {
         
         var usersArray: [User] = []
         
@@ -197,9 +198,120 @@ final class DbContext {
             return nil
         }
         
-        // Return the mind maps
-        guard let user = usersArray.first else { return nil}
-        return user
+        // Find the correct user
+        var authUser: User?
+        for user in usersArray {
+            
+            if (user.password == password && user.username == userName) {
+                authUser = user
+                
+                // Set the user defaults
+                let defaults = UserDefaults.standard
+                defaults.set(true, forKey: "loggedIn")
+                defaults.set(user.id?.uuidString, forKey: "id")
+                print(defaults.string(forKey: "id"))
+                
+                break
+            }
+        }
+        return authUser
     }
     
+    func fetchUser(id: UUID) -> User? {
+        var usersArray: [User] = []
+        
+        // Fetch the Core Data for the MindMapSection info
+        let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "User")
+        
+        do {
+            
+            // Get all of the users
+            guard let users = try managedContext?.fetch(fetchReqeust) as? [User] else { return nil }
+            usersArray = users
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return nil
+        }
+        
+        // Find the correct user
+        var authUser: User?
+        for user in usersArray {
+            
+            if (user.id == id) {
+                authUser = user
+                break
+            }
+        }
+        return authUser
+    }
+    
+    func updateMindMapSection(id: UUID, data: Data) {
+        
+        var mindMaps: [MindMapSection] = []
+        
+        // Get the managed context
+        guard let managedContext = self.managedContext else { return }
+     
+        // Fetch the Core Data for the MindMapSection info
+        let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "MindMapSection")
+        
+        do {
+            guard let mindMapsSections = try managedContext.fetch(fetchReqeust) as? [MindMapSection] else { return }
+            mindMaps.append(contentsOf: mindMapsSections)
+            
+        }
+        catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        for map in mindMaps {
+            
+            if (map.id == id) {
+                
+                map.setValue(data, forKey: "view")
+                break
+            }
+        }
+        
+        // Update the mangaged context
+        do {
+            try managedContext.save()
+        }
+        catch let error as NSError {
+            print("Could not save in updateMindMapSection", "\(error)")
+        }
+    }
+    
+    func fetchMindMap(id: UUID) -> MindMapSection? {
+        
+        // Get the mind map that matches the UUID
+        var mindMaps: [MindMapSection] = []
+        var selectedMindMap: MindMapSection?
+        
+        // Get the managed context
+        guard let managedContext = self.managedContext else { return nil }
+        
+        // Fetch the Core Data for the MindMapSection info
+        let fetchReqeust = NSFetchRequest<NSManagedObject>(entityName: "MindMapSection")
+       
+        do {
+            guard let mindMapsSections = try managedContext.fetch(fetchReqeust) as? [MindMapSection] else { return nil}
+            mindMaps.append(contentsOf: mindMapsSections)
+            
+        }
+        catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        for map in mindMaps {
+            
+            if (map.id == id) {
+                selectedMindMap = map
+                break
+            }
+        }
+        
+        return selectedMindMap
+    }
 }

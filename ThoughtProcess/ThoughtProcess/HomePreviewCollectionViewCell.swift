@@ -11,5 +11,4 @@ import UIKit
 class HomePreviewCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var previewImageView: UIImageView!
-    
 }

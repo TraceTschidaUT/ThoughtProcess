@@ -23,7 +23,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     
     // Controller Properties
     let Db = DbContext.sharedInstance
-    var path: String?
+    var id: UUID?
     let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     var customView: UIView?
@@ -64,13 +64,6 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             }
         }
         
-        else {
-            
-            // Create a new filepath
-            guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(UUID().uuidString).path else { return }
-            self.path = path
-        }
-        
         // Connect the scroll view delegate and configure size
         self.viewAndEditScrollView.delegate = self
         self.viewAndEditScrollView.minimumZoomScale = 1.0
@@ -96,19 +89,17 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         // Title
         self.navigationItem.title = self.title!
         
-        
-        // Save the view data
-        guard let path = self.path else { return }
-        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
-        
-        // Check if the save was successful
-        if saved && self.customView == nil {
+        // Create a new entry if the view is loaded
+        if self.id == nil {
+            
+            // Save the view data
+            let data = NSKeyedArchiver.archivedData(withRootObject: self.view)
             
             // Create a new entity
-            Db.createMindMapSection(title: self.title!, newFilePath: path)
+            self.id = UUID()
+            guard let id = self.id else { return }
+            Db.createMindMapSection(title: self.title!, view: data, mindMapID: id)
         }
-        
-        
     }
     
     // UI Methods
@@ -727,14 +718,10 @@ extension ViewAndEditViewController {
     
     func saveView() {
         
-        // Save the changes to the view
-        guard let path = self.path else { return }
-        let saved = NSKeyedArchiver.archiveRootObject(self.view, toFile: path)
-        if saved {
-            print("The view saved")
-        }
-        else {
-            print("The view failed to save")
-        }
+        // Save the view
+        let data = NSKeyedArchiver.archivedData(withRootObject: self.view)
+        guard let id = self.id else { return }
+        Db.updateMindMapSection(id: id, data: data)
+        
     }
 }

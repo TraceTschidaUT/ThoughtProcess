@@ -198,8 +198,6 @@ extension HomeViewController {
         // guard let vc = segue.destination as? ViewAndEditViewController else { return }
         
     }
-   
- 
 }
 
 extension HomeViewController: UINavigationControllerDelegate {
@@ -216,10 +214,12 @@ extension HomeViewController: UICollectionViewDelegate {
         
         // Get the view that from the file path
         let mindMap = self.mindMaps[indexPath.row]
-        guard let filePath: String = mindMap.filePath else { return }
         guard let title: String = mindMap.title else { return }
+        guard let id: UUID = mindMap.id else { return }
         
-        guard let view = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? UIView else { return }
+        guard let viewData = mindMap.view else { return }
+        guard let view: UIView = NSKeyedUnarchiver.unarchiveObject(with: viewData) as? UIView else { return }
+        print(view)
         print(indexPath.row)
         
         // Create a new view controller
@@ -227,8 +227,8 @@ extension HomeViewController: UICollectionViewDelegate {
         
         // Set up the controller
         controller.customView = view
-        controller.path = filePath
         controller.title = title
+        controller.id = id
         
         // Show the controller
         self.navigationController?.pushViewController(controller, animated: true)
@@ -251,7 +251,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         // Return the number of items
-        return Db.fetchAllFilePaths().count
+        return self.mindMaps.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -285,7 +285,7 @@ extension HomeViewController {
         guard let indexPath: IndexPath = self.previewCollectionView.indexPathForItem(at: touchPoint) else { return }
         
         // Get the filePath to delete
-        let filePath = Db.fetchAllFilePaths()[indexPath.row]
+        guard let id = self.mindMaps[indexPath.row].id else { return }
         
         // Create an alert controller for the section deletion
         self.alertController = UIAlertController(title: "Delete Section", message: "Would you like to delete this Mind Map?", preferredStyle: UIAlertControllerStyle.alert)
@@ -294,8 +294,9 @@ extension HomeViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: { (alertAction) in
             
             // Remove the mind map
-            self.Db.deleteMindMapSection(filePath: filePath)
+            self.Db.deleteMindMapSection(id: id)
             
+            // Reload the data
             self.previewCollectionView.reloadData()
             
         })

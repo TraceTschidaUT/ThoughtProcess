@@ -20,21 +20,24 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginClicked(_ sender: Any) {
         
-        guard let user = Db.fetchUser() else{ return }
+        // Get the username and password
+        guard let password = paswordTextField.text else { return }
+        guard let username = usernameTextField.text else { return }
         
-        if(user.password == paswordTextField.text && user.username == usernameTextField.text){
+        guard let _ = Db.fetchUser(userName: username, password: password) else {
             
-            // Create a View Controller and present it
-            guard let controller = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "Home") as?HomeViewController else { return }
-            
-            let navigationController = UINavigationController(rootViewController: controller)
-            
-            // Present the controller
-            self.present(navigationController, animated: true, completion: nil)
-            
-        } else{
             messageText.text = "User not found"
+            return
         }
+            
+        // Create a View Controller and present it
+        guard let controller = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "Home") as?HomeViewController else { return }
+        
+        let navigationController = UINavigationController(rootViewController: controller)
+        
+        // Present the controller
+        self.present(navigationController, animated: true, completion: nil)
+
     }
     
     @IBAction func createAccountClicked(_ sender: UIButton) {
