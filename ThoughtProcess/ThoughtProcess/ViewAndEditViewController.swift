@@ -14,7 +14,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var viewAndEditScrollView: UIScrollView!
     @IBOutlet weak var canvasView: UIView!
     @IBOutlet weak var optionsToolBar: UIToolbar!
-    var sections: [Int: ArrowView] = [:]
+    var sections: [Int: FlowMapView] = [:]
     var selectedTextView: UITextView?
     var alertController: UIAlertController? = nil
     var colorPicker: UIPickerView?
@@ -24,6 +24,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     // Controller Properties
     let Db = DbContext.sharedInstance
     var id: UUID?
+    var type: MindMapType?
     let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     var customView: UIView?
@@ -38,29 +39,47 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             // Get the scrollView
             guard let scrollView = self.customView?.viewWithTag(1820) as? UIScrollView else { return }
             guard let canvasView = scrollView.viewWithTag(320) else { return }
+            guard let type = self.type else { return }
             
             // Iterate through each section to build the SectionViews
             for canvasSubview in canvasView.subviews {
                 var numSections = 0
-                
+
                 // Convert each section into a SectionView
-                guard let section = canvasSubview as? ArrowView else { continue }
-                
-                // Set the delgate so the section can access the controller
-                section.delegate = self
-                
-                // Add a tag
-                section.tag = numSections
-                
-                // Hold all of the sections so you can access them later
-                self.sections[numSections] = section
-                numSections += 1
-                
-                // Add the gesture recognizers
-                self.addGestureRecognizers(arrow: section)
-                
-                // Add the section to the subview
-                self.canvasView.addSubview(section)
+                var section: FlowMapView
+
+                // Try to convert the view
+                do {
+                    if type == .arrow {
+                        try section = self.castArrow(subview: canvasSubview)
+                    }
+                    else if type == .bubble {
+                        try section = self.castBubble(subview: canvasSubview)
+                    }
+                    else {
+                        try section = self.castBox(subview: canvasSubview)
+                    }
+                    
+                    // Set the delgate so the section can access the controller
+                    section.delegate = self
+                    
+                    // Add a tag
+                    section.tag = numSections
+                    
+                    // Hold all of the sections so you can access them later
+                    self.sections[numSections] = section
+                    numSections += 1
+                    
+                    // Add the gesture recognizers
+                    self.addGestureRecognizers(arrow: section)
+                    
+                    // Add the section to the subview
+                    self.canvasView.addSubview(section)
+                }
+                catch {
+                    guard let connection = canvasSubview as? ConnectionView else { continue }
+                    self.canvasView.addSubview(connection)
+                }
             }
         }
         
@@ -98,7 +117,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             // Create a new entity
             self.id = UUID()
             guard let id = self.id else { return }
-            Db.createMindMapSection(title: self.title!, view: data, mindMapID: id)
+            guard let type = self.type else { return }
+            Db.createMindMapSection(title: self.title!, view: data, mindMapID: id, mapType: type)
         }
     }
     
@@ -212,28 +232,40 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     
     @IBAction func addSectionButton(_ sender: UIBarButtonItem) {
         
-        // Create a new Arrow shape
+        // Create a new section shape
         let viewCenter: CGPoint = CGPoint(x: self.viewAndEditScrollView.center.x - 100, y: self.viewAndEditScrollView.center.y - 100)
-        let arrow = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
-        arrow.tag = sections.count + 1
+        let shape: FlowMapView
         
-        self.addGestureRecognizers(arrow: arrow)
+        // Get the current type
+        guard let type = self.type else { return }
+        
+        if type == .arrow {
+            shape = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
+        }
+        else if type == .bubble {
+            shape = BubbleView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
+        }
+        else {
+            shape = BoxView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
+        }
+        
+        // Set the tag to make changes later
+        shape.tag = sections.count + 1
+        
+        self.addGestureRecognizers(arrow: shape)
         
         // Add a delegate to the textView
-        arrow.delegate = self
+        shape.delegate = self
         
         // Add the arrows to an array
-        self.sections[arrow.tag] = arrow
+        self.sections[shape.tag] = shape
         
         // Add the arrow to the canvas
-        self.canvasView.addSubview(arrow)
-        
-        // Save the changes
-        // self.saveView()
+        self.canvasView.addSubview(shape)
         
     }
     
-    func addGestureRecognizers(arrow: ArrowView) {
+    func addGestureRecognizers(arrow: FlowMapView) {
         
         // Add a pan gesture recognizer to the arrow
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handleArrowPan(_:)))
@@ -744,5 +776,31 @@ extension ViewAndEditViewController {
         guard let id = self.id else { return }
         Db.updateMindMapSection(id: id, data: data)
         
+    }
+}
+
+// MARK: - Casting
+extension ViewAndEditViewController {
+    
+    func castArrow(subview: UIView) throws -> ArrowView {
+        
+        guard let section = subview as? ArrowView else {
+            throw NSError()
+        }
+        return section
+    }
+    
+    func castBubble(subview: UIView) throws -> BubbleView {
+        guard let section = subview as? BubbleView else {
+            throw NSError()
+        }
+        return section
+    }
+    
+    func castBox(subview: UIView) throws -> BoxView {
+        guard let section = subview as? BoxView else {
+            throw NSError()
+        }
+        return section
     }
 }

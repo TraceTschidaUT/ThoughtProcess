@@ -26,7 +26,13 @@ struct TextViewBackgroundColor {
     var type: UIColor
 }
 
-class ArrowView: UIView {
+enum MindMapType: Int16 {
+    case arrow = 0
+    case bubble = 1
+    case square = 2
+}
+
+class FlowMapView: UIView {
     
     // MARK: - Properties
     var delegate: ViewAndEditViewController?
@@ -85,6 +91,14 @@ class ArrowView: UIView {
         aCoder.encode(self.textView!, forKey: "text")
         aCoder.encode(self.viewColor, forKey: "backgroundColor")
     }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+    }
+    
+}
+
+class ArrowView : FlowMapView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -149,31 +163,37 @@ class ArrowView: UIView {
         
         // Save the TextView as a property
         self.textView = textView
-
-        /* If there is a text view means this is being redrawn because of the color background
-        // Just read the textView
-        if self.textView != nil {
-            textView = self.textView!
-        }
-        else {
-            // Add a text view
-            textView = UITextView(frame: CGRect(x: self.bounds.minX + 10, y: self.bounds.minY + 10, width: p3.x - 10, height: p3.y - 20))
-            textView.backgroundColor = self.textViewBackgroundColor.type
-            textView.font = self.fontType.type
-            textView.textColor = self.fontColor.type
-            textView.allowsEditingTextAttributes = true
-            textView.isSelectable = true
-            textView.isEditable = true
-            textView.delegate = delegate
-            self.textView = textView
-        }
-        
-        textView.delegate = delegate
-        self.textView?.delegate = delegate
-    */
         
         self.addSubview(textView)
         
     }
+}
+
+class BubbleView : FlowMapView {
     
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        // Create the path
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: CGFloat(20), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePath.cgPath
+        
+        // Change the fill color
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.lineWidth = 3.0
+        
+        self.layer.addSublayer(shapeLayer)
+        
+    }
+}
+
+class BoxView : FlowMapView {
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+    }
 }

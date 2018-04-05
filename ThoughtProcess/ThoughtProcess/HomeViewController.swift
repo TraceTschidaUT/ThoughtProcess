@@ -155,7 +155,7 @@ class HomeViewController: UIViewController {
         var title = Date().description
         
         // Have the User enter the mind map name
-        let enterName = UIAlertAction(title: "Name Input", style: .default, handler: { (alertAction) in
+        let arrowCreate = UIAlertAction(title: "Create Flow Map", style: .default, handler: { (alertAction) in
             
             guard let textField = alertController.textFields?.first else { return }
             guard let name = textField.text else { return }
@@ -164,12 +164,49 @@ class HomeViewController: UIViewController {
             // Create a new view controller
             guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
             
-            // Set up the controller with the correct title
+            // Set up the controller with the correct title and type
             controller.title = title
+            controller.type = MindMapType.arrow
             
             // Show the controller
             self.navigationController?.pushViewController(controller, animated: true)
             
+        })
+        
+        let bubbleCreate =  UIAlertAction(title: "Create Bubble Map", style: .default, handler: { (alertAction) in
+        
+            guard let textField = alertController.textFields?.first else { return }
+            guard let name = textField.text else { return }
+            title = name
+            
+            // Create a new view controller
+            guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
+            
+            // Set up the controller with the correct title and type
+            controller.title = title
+            controller.type = MindMapType.bubble
+            
+            // Show the controller
+            self.navigationController?.pushViewController(controller, animated: true)
+            
+        })
+        
+        let boxCreate  = UIAlertAction(title: "Create Box Map", style: .default, handler: { (alertAction) in
+        
+            guard let textField = alertController.textFields?.first else { return }
+            guard let name = textField.text else { return }
+            title = name
+            
+            // Create a new view controller
+            guard let controller = UIStoryboard(name: "ViewAndEdit", bundle: nil).instantiateInitialViewController() as? ViewAndEditViewController else { return }
+            
+            // Set up the controller with the correct title and type
+            controller.title = title
+            controller.type = MindMapType.square
+            
+            // Show the controller
+            self.navigationController?.pushViewController(controller, animated: true)
+        
         })
         
         
@@ -180,7 +217,9 @@ class HomeViewController: UIViewController {
             
         })
         
-        alertController.addAction(enterName)
+        alertController.addAction(arrowCreate)
+        alertController.addAction(bubbleCreate)
+        alertController.addAction(boxCreate)
         alertController.addAction(deleteAction)
         self.present(alertController, animated: true, completion: nil)
         
@@ -214,6 +253,7 @@ extension HomeViewController: UICollectionViewDelegate {
         let mindMap = self.mindMaps[indexPath.row]
         guard let title: String = mindMap.title else { return }
         guard let id: UUID = mindMap.id else { return }
+        guard let type: MindMapType = MindMapType(rawValue: mindMap.type) else { return }
         
         guard let viewData = mindMap.view else { return }
         guard let view: UIView = NSKeyedUnarchiver.unarchiveObject(with: viewData) as? UIView else { return }
@@ -227,6 +267,7 @@ extension HomeViewController: UICollectionViewDelegate {
         controller.customView = view
         controller.title = title
         controller.id = id
+        controller.type = type
         
         // Show the controller
         self.navigationController?.pushViewController(controller, animated: true)

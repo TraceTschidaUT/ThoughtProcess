@@ -55,7 +55,7 @@ final class DbContext {
         return filePaths
     }
     
-    func createMindMapSection(title: String, view: Data, mindMapID: UUID) {
+    func createMindMapSection(title: String, view: Data, mindMapID: UUID, mapType: MindMapType) {
         
         // Create an entity
         guard let managedContext = self.managedContext else { return }
@@ -66,6 +66,7 @@ final class DbContext {
         mindMapSection.setValue(Date(), forKey: "dateCreated")
         mindMapSection.setValue(title, forKey: "title")
         mindMapSection.setValue(mindMapID, forKey: "id")
+        mindMapSection.setValue(mapType.rawValue, forKey: "type")
         
         // Get the User
         let defaults = UserDefaults.standard
@@ -209,7 +210,6 @@ final class DbContext {
                 let defaults = UserDefaults.standard
                 defaults.set(true, forKey: "loggedIn")
                 defaults.set(user.id?.uuidString, forKey: "id")
-                print(defaults.string(forKey: "id"))
                 
                 break
             }
