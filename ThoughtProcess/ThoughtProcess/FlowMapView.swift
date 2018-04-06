@@ -176,8 +176,8 @@ class BubbleView : FlowMapView {
         super.draw(rect)
         
         // Create the path
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: CGFloat(20), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
-        
+        print(self.center)
+        let circlePath = UIBezierPath(ovalIn: rect)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         
@@ -187,6 +187,41 @@ class BubbleView : FlowMapView {
         shapeLayer.lineWidth = 3.0
         
         self.layer.addSublayer(shapeLayer)
+        
+        // Configure User Interactions
+        self.isUserInteractionEnabled = true
+        
+        // Create and add a Text View
+        var textView: UITextView
+        let textViewHeight = (rect.maxY - rect.minY) * 0.70
+        let textViewWidth = (rect.maxX - rect.minX) * 0.70
+        let textViewRect = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 20, width: textViewWidth, height: textViewHeight)
+        textView = UITextView(frame: textViewRect)
+        
+        // Configure the font attributes
+        textView.font = self.textView?.font ?? self.fontType.type
+        textView.textColor = self.textView?.textColor ?? self.fontColor.type
+        
+        // Configure the text
+        let textViewText: NSAttributedString = self.textView?.attributedText ?? NSAttributedString()
+        textView.attributedText = textViewText
+        
+        // Configure the textview's background color
+        let textViewBackgroundColor: UIColor = self.textView?.backgroundColor ?? self.textViewBackgroundColor.type
+        textView.backgroundColor = textViewBackgroundColor
+        
+        // Confugre the editing abilities
+        textView.allowsEditingTextAttributes = true
+        textView.isSelectable = true
+        textView.isEditable = true
+        
+        // Add the controller as the delgate for the Protocol
+        textView.delegate = delegate
+        
+        // Save the TextView as a property
+        self.textView = textView
+        
+        self.addSubview(textView)
         
     }
 }

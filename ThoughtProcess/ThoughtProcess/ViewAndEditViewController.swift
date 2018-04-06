@@ -175,7 +175,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
         
         // Get the users defaults for the property picker
-        guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+        guard let sectionView: FlowMapView = self.selectedTextView?.superview as? FlowMapView else { return }
+        
         let fontTypeNum: Int = sectionView.fontType.value
         let fontColorNum: Int = sectionView.fontColor.value
         let backgroundColorNum: Int = sectionView.textViewBackgroundColor.value
@@ -243,7 +244,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             shape = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
         }
         else if type == .bubble {
-            shape = BubbleView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
+            shape = BubbleView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 4)))
         }
         else {
             shape = BoxView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
