@@ -181,8 +181,10 @@ class BubbleView : FlowMapView {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         
-        // Change the fill color
-        shapeLayer.fillColor = UIColor.clear.cgColor
+        // Change the fill color depending on what is saved
+        shapeLayer.fillColor = self.savedBackgroundColor?.cgColor ?? self.viewColor.cgColor
+        
+        // Change the stroke
         shapeLayer.strokeColor = UIColor.red.cgColor
         shapeLayer.lineWidth = 3.0
         
