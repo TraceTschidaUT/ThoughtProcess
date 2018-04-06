@@ -74,7 +74,7 @@ class FlowMapView: UIView {
         print("in init")
         let frame = aDecoder.decodeCGRect(forKey: "frame")
         let text = aDecoder.decodeObject(forKey: "text") as? UITextView ?? UITextView()
-        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.lightGray
+        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.purple
         
         // Call the main init to build out the View
         self.init(frame: frame)
@@ -126,6 +126,7 @@ class ArrowView : FlowMapView {
         // Set the background color
         if savedBackgroundColor != nil {
             self.savedBackgroundColor?.set()
+            self.viewColor = self.savedBackgroundColor!
             self.savedBackgroundColor = nil
         }
         else {
@@ -177,7 +178,7 @@ class BubbleView : FlowMapView {
         super.draw(rect)
         
         // Create the path
-        print(self.center)
+        print(rect)
         let circlePath = UIBezierPath(ovalIn: rect)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
@@ -186,6 +187,7 @@ class BubbleView : FlowMapView {
         if self.savedBackgroundColor != nil {
             shapeLayer.fillColor = self.savedBackgroundColor?.cgColor
             shapeLayer.strokeColor = self.savedBackgroundColor?.cgColor
+            self.viewColor = self.savedBackgroundColor!
             self.savedBackgroundColor = nil
         }
         else {
@@ -203,9 +205,7 @@ class BubbleView : FlowMapView {
         
         // Create and add a Text View
         var textView: UITextView
-        let textViewHeight = (rect.maxY - rect.minY) * 0.70
-        let textViewWidth = (rect.maxX - rect.minX) * 0.70
-        let textViewRect = CGRect(x: self.bounds.origin.x + 30, y: self.bounds.origin.y + 20, width: textViewWidth, height: textViewHeight)
+        let textViewRect = rect.insetBy(dx: 25, dy: 25)
         textView = UITextView(frame: textViewRect)
         
         // Configure the font attributes

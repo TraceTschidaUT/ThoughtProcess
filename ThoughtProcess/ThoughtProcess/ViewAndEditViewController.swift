@@ -244,7 +244,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             shape = ArrowView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
         }
         else if type == .bubble {
-            shape = BubbleView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 4)))
+            shape = BubbleView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
         }
         else {
             shape = BoxView(frame: CGRect(origin: viewCenter, size: CGSize(width: canvasView.bounds.maxX / 4, height: canvasView.bounds.maxY / 6)))
