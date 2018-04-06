@@ -580,7 +580,7 @@ extension ViewAndEditViewController: UIPickerViewDelegate, UIPickerViewDataSourc
         default:
             
             // Get the super view
-            guard let sectionView = self.selectedTextView?.superview as? ArrowView else { return }
+            guard let sectionView = self.selectedTextView?.superview as? FlowMapView else { return }
             
             // If the font
             if component == 0 {

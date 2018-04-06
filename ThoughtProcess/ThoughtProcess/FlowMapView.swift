@@ -126,6 +126,7 @@ class ArrowView : FlowMapView {
         // Set the background color
         if savedBackgroundColor != nil {
             self.savedBackgroundColor?.set()
+            self.savedBackgroundColor = nil
         }
         else {
             viewColor.set()
@@ -182,10 +183,17 @@ class BubbleView : FlowMapView {
         shapeLayer.path = circlePath.cgPath
         
         // Change the fill color depending on what is saved
-        shapeLayer.fillColor = self.savedBackgroundColor?.cgColor ?? self.viewColor.cgColor
+        if self.savedBackgroundColor != nil {
+            shapeLayer.fillColor = self.savedBackgroundColor?.cgColor
+            shapeLayer.strokeColor = self.savedBackgroundColor?.cgColor
+            self.savedBackgroundColor = nil
+        }
+        else {
+            shapeLayer.fillColor = self.viewColor.cgColor
+            shapeLayer.strokeColor = self.viewColor.cgColor
+        }
         
         // Change the stroke
-        shapeLayer.strokeColor = UIColor.red.cgColor
         shapeLayer.lineWidth = 3.0
         
         self.layer.addSublayer(shapeLayer)
