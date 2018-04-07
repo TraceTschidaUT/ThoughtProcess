@@ -14,7 +14,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet weak var viewAndEditScrollView: UIScrollView!
     @IBOutlet weak var canvasView: UIView!
     @IBOutlet weak var optionsToolBar: UIToolbar!
-    var sections: [Int: FlowMapView] = [:]
+    var sections: [Int: ColorChangeProtocol] = [:]
     var selectedTextView: UITextView?
     var alertController: UIAlertController? = nil
     var colorPicker: UIPickerView?
@@ -78,6 +78,16 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
                 }
                 catch {
                     guard let connection = canvasSubview as? ConnectionView else { continue }
+                    
+                    // Add a tag
+                    connection.tag = numSections
+                    
+                    // Hold all of the sections so you can access them later
+                    self.sections[numSections] = connection
+                    numSections += 1
+                    
+                    self.addGestureRecognizers(arrow: connection)
+                    self.addRotation(connection)
                     self.canvasView.addSubview(connection)
                 }
             }
@@ -141,9 +151,34 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         // Save the image to the mind map section
         guard let id = self.id else { return }
         Db.addImageToMindMap(image: image, id: id)
+        
+        self.saveView()
     }
     
     // UI Methods
+    @IBAction func addConnectionButton(_ sender: UIBarButtonItem) {
+        
+        // Draw the connection
+        let center: CGPoint = self.viewAndEditScrollView.center
+        let size: CGSize = CGSize(width: 5, height: 100)
+        let frame: CGRect =  CGRect(origin: center, size: size)
+        let connection = ConnectionView(frame: frame)
+        
+        // Add the gestures
+        self.addGestureRecognizers(arrow: connection)
+        self.addRotation(connection)
+        
+        // Set the tag to make changes later
+        connection.tag = self.sections.count + 1
+        
+        // Add the arrows to an array
+        self.sections[connection.tag] = connection
+        
+        // Add the connection to the subview
+        self.canvasView.addSubview(connection)
+    }
+    
+    
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
         
         // Check if access to saved photos
@@ -168,9 +203,6 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         self.blurView?.removeFromSuperview()
         self.textPropertyPicker?.removeFromSuperview()
         sender.removeFromSuperview()
-        
-        // Save the changes
-        self.saveView()
     }
     @IBAction func changeTextButton(_ sender: UIBarButtonItem) {
         
@@ -266,7 +298,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         
     }
     
-    func addGestureRecognizers(arrow: FlowMapView) {
+    func addGestureRecognizers(arrow: UIView) {
         
         // Add a pan gesture recognizer to the arrow
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handleArrowPan(_:)))
@@ -293,6 +325,13 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         movementLongPress.name = "movementLongPress"
         arrow.addGestureRecognizer(movementLongPress)
     }
+    
+    func addRotation(_ view: UIView) {
+        
+        // Create the rotation gesture
+        let rotation = UIRotationGestureRecognizer(target: self, action: #selector(handleConnectionRotation(_:)))
+        view.addGestureRecognizer(rotation)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -315,9 +354,6 @@ extension ViewAndEditViewController: UIScrollViewDelegate {
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         view?.layoutSubviews()
         
-        // Save the changes
-        self.saveView()
-        
     }
     
     func updateMinZoomScaleForSize (_ size: CGSize) {
@@ -327,15 +363,17 @@ extension ViewAndEditViewController: UIScrollViewDelegate {
         
         viewAndEditScrollView.minimumZoomScale = minScale
         viewAndEditScrollView.zoomScale = minScale
-        
-        // Save the changes
-        self.saveView()
     }
 }
 
 extension ViewAndEditViewController {
     
     // Gesture Handlers
+    @IBAction func handleConnectionRotation(_ recognizer: UIRotationGestureRecognizer) {
+        guard let view = recognizer.view else { return }
+        view.transform = view.transform.rotated(by: recognizer.rotation)
+        recognizer.rotation = 0
+    }
     @IBAction func tapCanvas(_ recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
         self.viewAndEditScrollView.isScrollEnabled = true
@@ -354,8 +392,6 @@ extension ViewAndEditViewController {
             self.viewAndEditScrollView.isScrollEnabled = false
         }
         
-        // Save the changes
-        self.saveView()
     }
     
     @IBAction func handleArrowLongPress(_ recognizer: UILongPressGestureRecognizer) {
@@ -393,9 +429,6 @@ extension ViewAndEditViewController {
             // Reset the recognizer
             recognizer.scale = 1.0
         }
-        
-        // Save the changes
-        self.saveView()
     }
     @IBAction func handleArrowPan(_ recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.view)
@@ -490,9 +523,6 @@ extension ViewAndEditViewController: UITextViewDelegate {
             // Change the mutable string
             self.selectedTextView?.attributedText = mutableString
             
-            // Save the changes
-            self.saveView()
-            
         }
     }
     
@@ -567,7 +597,7 @@ extension ViewAndEditViewController: UIPickerViewDelegate, UIPickerViewDataSourc
             let color: UIColor = self.getUIColor(row)
             
             // Change the color of every section
-            for (_, section) in self.sections {
+            for (_, var section) in self.sections {
                 section.viewColor = color
             }
             

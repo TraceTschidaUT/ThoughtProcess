@@ -32,7 +32,7 @@ enum MindMapType: Int16 {
     case square = 2
 }
 
-class FlowMapView: UIView {
+class FlowMapView: UIView, ColorChangeProtocol {
     
     // MARK: - Properties
     var delegate: ViewAndEditViewController?
