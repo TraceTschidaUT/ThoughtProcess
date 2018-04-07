@@ -67,7 +67,11 @@
                                             <action selector="insertButton:" destination="N8N-5x-kPT" id="0Pj-C2-LAw"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Share" id="9Zp-dh-ftH"/>
+                                    <barButtonItem title="Share" id="9Zp-dh-ftH">
+                                        <connections>
+                                            <action selector="shareMindMap:" destination="N8N-5x-kPT" id="HYl-V8-pXF"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

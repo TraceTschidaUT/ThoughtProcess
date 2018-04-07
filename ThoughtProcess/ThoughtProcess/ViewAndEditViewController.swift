@@ -28,6 +28,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     let colors: [String] = ["Black", "Red", "Blue", "Green", "Gray", "Light Gray", "Purple", "Orange", "Yellow"]
     let fontStyles: [String] = ["Body", "Callout", "Caption 1", "Caption 2", "Footnote", "Headline", "Subheadline", "Large Title", "Title 1", "Title 2", "Title 3"]
     var customView: UIView?
+    var shareName: String = ""
 
     // View did load
     override func viewDidLoad() {
@@ -178,6 +179,129 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         self.canvasView.addSubview(connection)
     }
     
+    @IBAction func shareMindMap(_ sender: UIBarButtonItem) {
+        
+        var nameTextField:UITextField? = nil
+        
+        self.alertController = UIAlertController(title: "Export Mind Map", message: "Choose file type to export as and give your mind map a name", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let pdf = UIAlertAction(title: "PDF", style: UIAlertActionStyle.default) { (action:UIAlertAction) in
+            let data = NSMutableData()
+            UIGraphicsBeginPDFContextToData(data, self.view.frame, nil)
+            guard let currentContext = UIGraphicsGetCurrentContext() else { return }
+            UIGraphicsBeginPDFPage()
+            self.view.layer.render(in: currentContext)
+            UIGraphicsEndPDFContext()
+            
+            guard var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            
+            guard let text = nameTextField?.text else { return }
+            self.shareName = text
+            
+            if self.shareName == "" {
+                self.shareName = "My Mind Map"
+            }
+            
+            path.appendPathComponent("\(self.shareName).pdf")
+            
+            do {
+                try data.write(to: path)
+            }
+            catch {
+                print("Not saved")
+            }
+            
+            print(path)
+            
+            
+            self.share(url: path)
+        }
+        
+        let jpeg = UIAlertAction(title: "JPEG", style: UIAlertActionStyle.default) { (action:UIAlertAction) in
+            UIGraphicsBeginImageContext(self.view.frame.size)
+            guard let currentContext = UIGraphicsGetCurrentContext() else { return }
+            self.view.layer.render(in: currentContext)
+            guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+            UIGraphicsEndImageContext()
+            
+            guard let data = UIImageJPEGRepresentation(image, 1) else { return }
+            
+            // Create a temporary path
+            guard var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            
+            guard let text = nameTextField?.text else { return }
+            self.shareName = text
+            
+            if self.shareName == "" {
+                self.shareName = "My Mind Map"
+            }
+            
+            path.appendPathComponent("\(self.shareName).jpeg")
+            
+            do {
+                try data.write(to: path)
+            }
+            catch {
+                print("Not saved")
+            }
+            
+            print(path)
+            
+            self.share(url: path)
+        }
+        
+        let png = UIAlertAction(title: "PNG", style: UIAlertActionStyle.default) { (action:UIAlertAction) in
+            UIGraphicsBeginImageContext(self.view.frame.size)
+            guard let currentContext = UIGraphicsGetCurrentContext() else { return }
+            self.view.layer.render(in: currentContext)
+            guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return }
+            UIGraphicsEndImageContext()
+            
+            guard let data = UIImagePNGRepresentation(image) else { return }
+            
+            // Create a temporary path
+            guard var path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            
+            guard let text = nameTextField?.text else { return }
+            self.shareName = text
+            
+            if self.shareName == "" {
+                self.shareName = "My Mind Map"
+            }
+            
+            path.appendPathComponent("\(self.shareName).png")
+            
+            do {
+                try data.write(to: path)
+            }
+            catch {
+                print("Not saved")
+            }
+            
+            print(path)
+            
+            self.share(url: path)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default)
+        
+        self.alertController!.addAction(pdf)
+        self.alertController!.addAction(jpeg)
+        self.alertController!.addAction(png)
+        self.alertController?.addAction(cancel)
+        
+        self.alertController?.addTextField { (textField) -> Void in
+            nameTextField = textField
+            nameTextField?.placeholder = "File Name"
+        }
+        
+        self.present(self.alertController!, animated: true, completion:nil)
+    }
+    
+    func share(url: URL) {
+        let docVC = UIDocumentPickerViewController(url: url, in: .exportToService)
+        self.navigationController?.present(docVC, animated: true, completion: nil)
+    }
     
     @IBAction func insertButton(_ sender: UIBarButtonItem) {
         

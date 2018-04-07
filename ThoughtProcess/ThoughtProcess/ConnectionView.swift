@@ -49,7 +49,8 @@ class ConnectionView: UIView, ColorChangeProtocol {
     override func encode(with aCoder: NSCoder) {
         print("in encode")
         super.encode(with: aCoder)
-        aCoder.encode(self.frame, forKey: "frame")
+        aCoder.encode(self.bounds, forKey: "frame")
+        // SAVE THE BOUNDS AND THE FRAME!
         aCoder.encode(self.viewColor, forKey: "backgroundColor")
     }
     
