@@ -41,8 +41,12 @@ class FlowMapView: UIView, ColorChangeProtocol {
     
     var viewColor = UIColor.gray {
         didSet {
-            self.savedBackgroundColor = nil
-            self.setNeedsDisplay()
+            if self.savedBackgroundColor == nil{
+                self.setNeedsDisplay()
+            }
+            else {
+                self.backgroundColor = nil
+            }
         }
     }
     
@@ -240,5 +244,53 @@ class BoxView : FlowMapView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
+        let path = UIBezierPath(rect: rect)
+        
+        // Set the background color
+        if savedBackgroundColor != nil {
+            self.savedBackgroundColor?.set()
+            self.viewColor = self.savedBackgroundColor!
+            self.savedBackgroundColor = nil
+        }
+        else {
+            viewColor.set()
+        }
+        
+        // fill the path
+        path.fill()
+        
+        // Configure User Interactions
+        self.isUserInteractionEnabled = true
+        
+        // Create and add a Text View
+        var textView: UITextView
+        let textViewRect = rect.insetBy(dx: 10, dy: 10)
+        textView = UITextView(frame: textViewRect)
+        
+        // Configure the font attributes
+        textView.font = self.textView?.font ?? self.fontType.type
+        textView.textColor = self.textView?.textColor ?? self.fontColor.type
+        
+        // Configure the text
+        let textViewText: NSAttributedString = self.textView?.attributedText ?? NSAttributedString()
+        textView.attributedText = textViewText
+        
+        // Configure the textview's background color
+        let textViewBackgroundColor: UIColor = self.textView?.backgroundColor ?? self.textViewBackgroundColor.type
+        textView.backgroundColor = textViewBackgroundColor
+        
+        // Confugre the editing abilities
+        textView.allowsEditingTextAttributes = true
+        textView.isSelectable = true
+        textView.isEditable = true
+        
+        // Add the controller as the delgate for the Protocol
+        textView.delegate = delegate
+        
+        // Save the TextView as a property
+        self.textView = textView
+        
+        self.addSubview(textView)
     }
 }

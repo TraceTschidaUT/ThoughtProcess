@@ -28,6 +28,31 @@ class ConnectionView: UIView, ColorChangeProtocol {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.clear
+    }
+    
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        print("in init")
+        let frame = aDecoder.decodeCGRect(forKey: "frame")
+        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.gray
+        
+        // Call the main init to build out the View
+        self.init(frame: frame)
+        
+        // Set the necessary properties
+        self.savedBackgroundColor = viewColor
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        print("in encode")
+        super.encode(with: aCoder)
+        aCoder.encode(self.frame, forKey: "frame")
+        aCoder.encode(self.viewColor, forKey: "backgroundColor")
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
@@ -36,8 +61,8 @@ class ConnectionView: UIView, ColorChangeProtocol {
         
         // Set the color
         if savedBackgroundColor != nil {
-            self.viewColor = self.savedBackgroundColor!
             self.savedBackgroundColor?.set()
+            self.viewColor = self.savedBackgroundColor!
         }
         else {
             self.viewColor.set()
