@@ -20,6 +20,16 @@ private let reuseIdentifer = "Cell"
 
 class HomeViewController: UIViewController {
     
+    @IBAction func account(_ sender: UIButton) {
+        // Create a View Controller and present it
+        guard let controller = UIStoryboard(name: "AccountPage", bundle: nil).instantiateInitialViewController() as? AccountPageViewController else { return }
+        
+        // Present the controller
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    
+    
     @IBOutlet weak var previewCollectionView: UICollectionView!
     
     let Db = DbContext.sharedInstance

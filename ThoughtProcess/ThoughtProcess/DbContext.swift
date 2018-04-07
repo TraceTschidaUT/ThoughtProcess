@@ -148,7 +148,7 @@ final class DbContext {
         return mindMaps
     }
     
-    func createUser(date:Date, firstName:String, lastName:String, username:String, password:String, email:String){
+    func createUser(date:Date, firstName:String, lastName:String, username:String, password:String, email:String, profilePicture: UIImage){
         
         // Get the managed context
         guard let managedContext = self.managedContext else { return }
@@ -166,6 +166,7 @@ final class DbContext {
             newUser.setValue(date, forKey: "dateOfBirth")
             newUser.setValue(username, forKey: "username")
             newUser.setValue(id, forKey: "id")
+            newUser.setValue(profilePicture, forKey: "profilePicture")
         
         // Set the defaults
         UserDefaults.standard.set(id.uuidString, forKey: "id")
@@ -180,6 +181,30 @@ final class DbContext {
             print("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
+    
+    func editAccount(id: UUID, firstName:String, lastName:String, username:String, password:String, email:String, profilePicture: UIImage){
+        
+        let edit = self.fetchUser(id: id)
+        
+        edit?.setValue(firstName, forKey: "firstName")
+        edit?.setValue(lastName, forKey: "lastName")
+        edit?.setValue(password, forKey: "password")
+        edit?.setValue(email, forKey: "email")
+        edit?.setValue(username, forKey: "username")
+        edit?.setValue(profilePicture, forKey: "profilePicture")
+        edit?.setValue(id, forKey: "id")
+        
+        
+        // Commit the Changes
+        do {
+            try self.managedContext?.save()
+            print("\(Date()): Account has been edited")
+        } catch {
+            let nserror = error as NSError
+            print("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
     
     func fetchUser(userName: String, password: String) -> User? {
         
