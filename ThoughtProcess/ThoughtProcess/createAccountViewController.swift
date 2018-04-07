@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class createAccountViewController: UIViewController {
+class createAccountViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let Db = DbContext.sharedInstance
     
@@ -17,6 +17,9 @@ class createAccountViewController: UIViewController {
     var users = [NSManagedObject]()
     var managedContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
+    @IBOutlet weak var profileImage: UIImageView!
+    let imagePicker = UIImagePickerController()
+    
     @IBOutlet weak var firstNametxt: UITextField!
     @IBOutlet weak var lastNametxt: UITextField!
     @IBOutlet weak var usernametxt: UITextField!
@@ -37,6 +40,7 @@ class createAccountViewController: UIViewController {
         super.viewDidLoad()
         self.dobDatePicker.addTarget(self, action: #selector(dob(_:)), for: UIControlEvents.valueChanged)
         self.dobDatePicker.datePickerMode = UIDatePickerMode.date
+//        imagePicker.delegate = self
         // Do any additional setup after loading the view.
     }
 
@@ -54,10 +58,11 @@ class createAccountViewController: UIViewController {
         guard let password = passwordtxt.text else { return }
         guard let confirmPassword = confirmPasswordtxt.text else { return }
         guard let email = emailtxt.text else { return }
+        guard let proiflePicture = profileImage.image else { return }
         
         if(password == confirmPassword){
         
-            Db.createUser(date: self.dob, firstName: firstname, lastName: lastname, username: username, password: password, email: email)
+            Db.createUser(date: self.dob, firstName: firstname, lastName: lastname, username: username, password: password, email: email, profilePicture: proiflePicture)
         
             // Create a View Controller and present it
             guard let controller = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "Home") as?HomeViewController else { return }
@@ -70,6 +75,28 @@ class createAccountViewController: UIViewController {
             errorMessagetxt.text = "Passwords do not match"
         }
     }
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+        
+        profileImage.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func uploadPhoto(_ sender: UIButton) {
+        
+        var pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
+        self.present(pickerController, animated: true, completion: nil)
+        
+        
+    }
+    
+
+    
+    
     
     /*
     // MARK: - Navigation
