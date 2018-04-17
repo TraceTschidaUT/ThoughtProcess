@@ -41,10 +41,10 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             guard let scrollView = self.customView?.viewWithTag(1820) as? UIScrollView else { return }
             guard let canvasView = scrollView.viewWithTag(320) else { return }
             guard let type = self.type else { return }
+            var numSections = 0
             
             // Iterate through each section to build the SectionViews
             for canvasSubview in canvasView.subviews {
-                var numSections = 0
 
                 // Convert each section into a SectionView
                 var section: FlowMapView

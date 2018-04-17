@@ -62,7 +62,7 @@ class FlowMapView: UIView, ColorChangeProtocol {
             self.textView?.textColor = fontColor.type
         }
     }
-    var textViewBackgroundColor: TextViewBackgroundColor = TextViewBackgroundColor(name: "Black", value: 0, type: UIColor.black) {
+    var textViewBackgroundColor: TextViewBackgroundColor = TextViewBackgroundColor(name: "Gray", value: 4, type: UIColor.gray) {
         didSet {
             self.textView?.backgroundColor = textViewBackgroundColor.type
         }
@@ -70,7 +70,8 @@ class FlowMapView: UIView, ColorChangeProtocol {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.clear
+        self.backgroundColor = UIColor.clear
+        self.isOpaque = false
     }
     
     
@@ -78,7 +79,7 @@ class FlowMapView: UIView, ColorChangeProtocol {
         print("in init")
         let frame = aDecoder.decodeCGRect(forKey: "frame")
         let text = aDecoder.decodeObject(forKey: "text") as? UITextView ?? UITextView()
-        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.purple
+        let viewColor = aDecoder.decodeObject(forKey: "backgroundColor") as? UIColor ?? UIColor.lightGray
         
         // Call the main init to build out the View
         self.init(frame: frame)
@@ -128,13 +129,14 @@ class ArrowView : FlowMapView {
         path.close()
         
         // Set the background color
+        self.backgroundColor = UIColor.clear
         if savedBackgroundColor != nil {
             self.savedBackgroundColor?.set()
             self.viewColor = self.savedBackgroundColor!
             self.savedBackgroundColor = nil
         }
         else {
-            viewColor.set()
+            self.viewColor.set()
         }
         
         // fill the path
@@ -195,6 +197,7 @@ class BubbleView : FlowMapView {
             self.savedBackgroundColor = nil
         }
         else {
+            self.backgroundColor = UIColor.clear
             shapeLayer.fillColor = self.viewColor.cgColor
             shapeLayer.strokeColor = self.viewColor.cgColor
         }
@@ -248,6 +251,7 @@ class BoxView : FlowMapView {
         let path = UIBezierPath(rect: rect)
         
         // Set the background color
+        self.backgroundColor = UIColor.clear
         if savedBackgroundColor != nil {
             self.savedBackgroundColor?.set()
             self.viewColor = self.savedBackgroundColor!
