@@ -10,4 +10,6 @@ import UIKit
 
 class ListHomeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var bottomBarView: UIView!
+    
 }

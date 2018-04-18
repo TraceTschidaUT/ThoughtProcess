@@ -20,10 +20,15 @@ private let reuseIdentifer = "Cell"
 
 class HomeViewController: UIViewController {
     
+    // View Properties
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var sortByBarButton: UIBarButtonItem!
+    
+    
     // Control Properies
     let defaults = UserDefaults.standard
     
-    @IBAction func account(_ sender: UIButton) {
+    @IBAction func account(_ sender: UIBarButtonItem) {
         // Create a View Controller and present it
         guard let controller = UIStoryboard(name: "AccountPage", bundle: nil).instantiateInitialViewController() as? AccountPageViewController else { return }
         
@@ -114,7 +119,7 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func sortByButton(_ sender: UIButton) {
+    @IBAction func sortByButton(_ sender: UIBarButtonItem) {
         
         // Create an action sheet for the different sorting methods
         let alertController = UIAlertController(title: "Sort Mind Maps", message: "Choose how you want your Mind Maps sorted", preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -154,14 +159,14 @@ class HomeViewController: UIViewController {
         alertController.addAction(descendingTitle)
         alertController.addAction(descendingDate)
         alertController.addAction(cancel)
-        alertController.popoverPresentationController?.sourceView = sender
-        alertController.popoverPresentationController?.sourceRect = sender.bounds
+        alertController.popoverPresentationController?.sourceView = self.toolBar
+        alertController.popoverPresentationController?.sourceRect = self.toolBar.bounds
         
         self.present(alertController, animated: true, completion: nil)
     }
     
     
-    @IBAction func createNewMindMap(_ sender: UIButton) {
+    @IBAction func createNewMindMap(_ sender: UIBarButtonItem) {
         // Create an alert for the name of Mind Map
         // Create an alert controller for the section deletion
         let alertController = UIAlertController(title: "Name of New Mind Map", message: "Enter the Name of your New Mind Map", preferredStyle: UIAlertControllerStyle.alert)
@@ -292,7 +297,7 @@ extension HomeViewController: UICollectionViewDelegate {
 }
 
 // MARK: - Collection View DataSource
-extension HomeViewController: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
@@ -335,7 +340,7 @@ extension HomeViewController: UICollectionViewDataSource {
         }
         else {
             // Get the cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! ListHomeCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "List", for: indexPath) as! ListHomeCollectionViewCell
             
             // Get the correct mind map
             let mindMap = self.mindMaps[indexPath.row]
@@ -351,10 +356,14 @@ extension HomeViewController: UICollectionViewDataSource {
             // Put the corresponding image on the cell
             guard let title = mindMap.title else { return cell }
             cell.titleLabel.text = title
+            cell.bottomBarView.frame.size = CGSize(width: self.previewCollectionView.frame.width, height: 1.0)
             
             // Return the finished cell
             return cell
         }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: self.previewCollectionView.frame.width, height: 45.0)
     }
     
 }

@@ -18,20 +18,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mBz-6g-Bkc">
-                                <rect key="frame" x="612" y="36" width="119" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Account"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49d-rf-YLQ">
-                                <rect key="frame" x="20" y="36" width="81" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Settings"/>
-                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3KU-A3-k9K">
                                 <rect key="frame" x="20" y="139" width="711" height="865"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.84313725490000002" green="1" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="iAO-wI-vfT">
                                     <size key="itemSize" width="124" height="168"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -56,78 +47,88 @@
                                             <outlet property="previewImageView" destination="TTg-c8-Gft" id="3oQ-zZ-GdF"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="List" id="g1q-BK-TYj" customClass="ListHomeCollectionViewCell" customModule="ThoughtProcess" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="List" id="g1q-BK-TYj" customClass="ListHomeCollectionViewCell" customModule="ThoughtProcess" customModuleProvider="target">
                                         <rect key="frame" x="134" y="61.5" width="577" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="577" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hwy-w2-H3S">
-                                                    <rect key="frame" x="0.0" y="0.0" width="577" height="45"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hwy-w2-H3S">
+                                                    <rect key="frame" x="0.0" y="0.0" width="577" height="33"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <color key="textColor" red="0.41658074239999998" green="0.31630635639999999" blue="0.15979425559999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mWa-Ws-7Mx">
+                                                    <rect key="frame" x="0.0" y="44" width="577" height="1"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
                                             </subviews>
                                         </view>
                                         <size key="customSize" width="577" height="45"/>
                                         <connections>
+                                            <outlet property="bottomBarView" destination="mWa-Ws-7Mx" id="5pb-Y3-cvP"/>
                                             <outlet property="titleLabel" destination="Hwy-w2-H3S" id="bXw-t0-J4v"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HdB-UD-wcP">
-                                <rect key="frame" x="74" y="86" width="103" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Create New">
-                                    <color key="titleColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="createNewMindMap:" destination="9Xg-3C-pU7" eventType="touchUpInside" id="hy1-7o-syH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StQ-hS-RP6">
-                                <rect key="frame" x="578" y="86" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Account">
-                                    <color key="titleColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="account:" destination="9Xg-3C-pU7" eventType="touchUpInside" id="zZk-jt-5Ro"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHC-cb-wXd">
-                                <rect key="frame" x="405" y="86" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Settings">
-                                    <color key="titleColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyr-LO-MEo">
-                                <rect key="frame" x="240" y="86" width="75" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sort By">
-                                    <color key="titleColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="sortByButton:" destination="9Xg-3C-pU7" eventType="touchUpInside" id="h6W-WP-iva"/>
-                                </connections>
-                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ito-b2-pVS">
+                                <rect key="frame" x="0.0" y="64" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="0.84313725490196079" green="1" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <items>
+                                    <barButtonItem title="Create New" id="fKK-ee-7yu">
+                                        <color key="tintColor" red="0.24420592029999999" green="0.48851919420000001" blue="0.22720026030000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <action selector="createNewMindMap:" destination="9Xg-3C-pU7" id="ays-Rq-Nlz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Sort By" id="cvL-Ih-ums">
+                                        <color key="tintColor" red="0.24420592029999999" green="0.48851919420000001" blue="0.22720026030000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <action selector="sortByButton:" destination="9Xg-3C-pU7" id="3Mz-PH-1Zs"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Settings" id="TCf-4V-Btj">
+                                        <color key="tintColor" red="0.24420592029999999" green="0.48851919420000001" blue="0.22720026030000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <segue destination="ehM-tS-pkx" kind="show" id="3fK-jz-K7Q"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Account" id="I8Z-Rc-VPT">
+                                        <color key="tintColor" red="0.24420592029999999" green="0.48851919420000001" blue="0.22720026030000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <action selector="account:" destination="9Xg-3C-pU7" id="OIC-XD-orf"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.84313725490000002" green="1" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="9Wg-4Q-xxx"/>
                     </view>
                     <navigationItem key="navigationItem" id="E0Z-H7-Zoe"/>
                     <connections>
                         <outlet property="previewCollectionView" destination="3KU-A3-k9K" id="pG3-SV-Gi7"/>
+                        <outlet property="toolBar" destination="Ito-b2-pVS" id="S57-ga-PCb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BiP-BK-ZM6" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-664.0625" y="141.796875"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="GSn-Mq-wMx">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" id="ehM-tS-pkx" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="htf-uR-IYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-254" y="105"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tKs-jE-Eo7">
