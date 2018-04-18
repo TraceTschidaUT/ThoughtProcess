@@ -1,34 +1,31 @@
 //
-//  MainViewController.swift
+//  SettingsViewController.swift
 //  ThoughtProcess
 //
-//  Created by Gabriela Dudzic on 3/27/18.
+//  Created by Gabriela Dudzic on 4/17/18.
 //  Copyright © 2018 cs329e. All rights reserved.
 //
 
 import UIKit
 
-class MainViewController: UIViewController {
-
-    let defaults = UserDefaults.standard
+class SettingsViewController: UIViewController {
+    @IBOutlet weak var homeCollectionSegmented: UISegmentedControl!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        defaults.integer(forKey: "collectionCellType")
+        
+    }
+    
+    @IBAction func changeHomeLook(_ sender: UISegmentedControl) {
+        
+        let defaults = UserDefaults.standard
+        defaults.set(sender.selectedSegmentIndex, forKey: "collectionCellType")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        // Move to the login view controller
-        guard let controller = UIStoryboard(name: "login", bundle: nil).instantiateInitialViewController() as? LoginViewController else { return }
-        
-        // Present the controller
-        self.present(controller, animated: true, completion: nil)
     }
     
 

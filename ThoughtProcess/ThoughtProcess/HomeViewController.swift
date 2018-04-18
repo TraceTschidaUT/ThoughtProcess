@@ -20,6 +20,9 @@ private let reuseIdentifer = "Cell"
 
 class HomeViewController: UIViewController {
     
+    // Control Properies
+    let defaults = UserDefaults.standard
+    
     @IBAction func account(_ sender: UIButton) {
         // Create a View Controller and present it
         guard let controller = UIStoryboard(name: "AccountPage", bundle: nil).instantiateInitialViewController() as? AccountPageViewController else { return }
@@ -305,26 +308,53 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // Get the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! HomePreviewCollectionViewCell
+        // Get the cell type
+        let cellType = defaults.integer(forKey: "collectionCellType")
         
-        // Get the correct mind map
-        let mindMap = self.mindMaps[indexPath.row]
-        
-        // Add a long press gesture recognizer
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        longPress.numberOfTapsRequired = 0
-        longPress.numberOfTouchesRequired = 1
-        longPress.minimumPressDuration = CFTimeInterval(1)
-        cell.addGestureRecognizer(longPress)
-        
-        
-        // Put the corresponding image on the cell
-        guard let image = mindMap.image as? UIImage else { return cell }
-        cell.previewImageView.image = image
-        
-        // Return the finished cell
-        return cell  
+        if cellType == 0 {
+            // Get the cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! HomePreviewCollectionViewCell
+            
+            // Get the correct mind map
+            let mindMap = self.mindMaps[indexPath.row]
+            
+            // Add a long press gesture recognizer
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+            longPress.numberOfTapsRequired = 0
+            longPress.numberOfTouchesRequired = 1
+            longPress.minimumPressDuration = CFTimeInterval(1)
+            cell.addGestureRecognizer(longPress)
+            
+            
+            // Put the corresponding image on the cell
+            guard let image = mindMap.image as? UIImage else { return cell }
+            cell.previewImageView.image = image
+            
+            // Return the finished cell
+            return cell
+        }
+        else {
+            // Get the cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! ListHomeCollectionViewCell
+            
+            // Get the correct mind map
+            let mindMap = self.mindMaps[indexPath.row]
+            
+            // Add a long press gesture recognizer
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+            longPress.numberOfTapsRequired = 0
+            longPress.numberOfTouchesRequired = 1
+            longPress.minimumPressDuration = CFTimeInterval(1)
+            cell.addGestureRecognizer(longPress)
+            
+            
+            // Put the corresponding image on the cell
+            guard let title = mindMap.title else { return cell }
+            cell.titleLabel.text = title
+            
+            // Return the finished cell
+            return cell
+        }
     }
     
 }
