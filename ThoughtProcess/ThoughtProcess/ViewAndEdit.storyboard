@@ -42,32 +42,40 @@
                                 <rect key="frame" x="0.0" y="63" width="768" height="44"/>
                                 <items>
                                     <barButtonItem title="Add Section" id="i2r-1c-QHu">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="addSectionButton:" destination="N8N-5x-kPT" id="9au-8k-iA6"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Add Connection" id="9wU-YQ-cJM">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="addConnectionButton:" destination="N8N-5x-kPT" id="JQz-xd-as9"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Color" id="ntl-5Q-mId">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="changeColorButton:" destination="N8N-5x-kPT" id="2xB-ry-Zez"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem id="Nk6-Na-HgQ"/>
+                                    <barButtonItem id="Nk6-Na-HgQ">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </barButtonItem>
                                     <barButtonItem title="Text" id="36X-dX-7vO">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="changeTextButton:" destination="N8N-5x-kPT" id="Pjz-PO-F5S"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Insert" id="KpS-ws-scl">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="insertButton:" destination="N8N-5x-kPT" id="0Pj-C2-LAw"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Share" id="9Zp-dh-ftH">
+                                        <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="shareMindMap:" destination="N8N-5x-kPT" id="HYl-V8-pXF"/>
                                         </connections>
