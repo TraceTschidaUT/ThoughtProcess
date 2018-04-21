@@ -11,15 +11,17 @@ import UIKit
 class SettingsViewController: UIViewController {
     @IBOutlet weak var homeCollectionSegmented: UISegmentedControl!
     
+    // Controller Properties
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        homeCollectionSegmented.selectedSegmentIndex = defaults.integer(forKey: "collectionCellType")
         
     }
     
     @IBAction func changeHomeLook(_ sender: UISegmentedControl) {
         
-        let defaults = UserDefaults.standard
         defaults.set(sender.selectedSegmentIndex, forKey: "collectionCellType")
     }
 

@@ -625,6 +625,7 @@ extension ViewAndEditViewController: UITextViewDelegate {
             // Get the range
             guard let range = self.selectedTextView?.selectedRange else { return }
             
+            
             // Get the selected text
             guard let selectedText = self.selectedTextView?.attributedText.attributedSubstring(from: range) else { return }
             
@@ -634,15 +635,22 @@ extension ViewAndEditViewController: UITextViewDelegate {
             // Create a mutable string from the original text
             guard let mutableString = self.selectedTextView?.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
             
-            
             // Create the highlight and replace the text
             let highlight = NSMutableAttributedString(attributedString: selectedText)
             highlight.addAttributes([NSAttributedStringKey.backgroundColor: UIColor.yellow], range: NSMakeRange(0, selectedText.string.count))
             mutableString.replaceCharacters(in: range, with: highlight)
             
             // Make the attributed string background clear after the highlight
-            let endOfText: NSRange = NSMakeRange(allText.count - 1, 1)
-            mutableString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.clear, range: endOfText)
+            if end == self.selectedTextView?.text.count {
+                
+                // Get all of the Attributes
+                guard let attributes = self.selectedTextView?.attributedText.attributes(at: 0, effectiveRange: nil) else { return }
+                
+                // Add a space with the correct attributes
+                let space = NSAttributedString(string: " ", attributes: attributes)
+                mutableString.append(space)
+                mutableString.removeAttribute(NSAttributedStringKey.backgroundColor, range: NSMakeRange(allText.count, 1))
+            }
             
             // Change the mutable string
             self.selectedTextView?.attributedText = mutableString
