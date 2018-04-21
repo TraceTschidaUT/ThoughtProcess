@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,41 +18,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5v-6z-F2c">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U5v-6z-F2c">
                                 <rect key="frame" x="20" y="119" width="728" height="885"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xak-Sh-Lg1">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xak-Sh-Lg1">
                                         <rect key="frame" x="8" y="8" width="712" height="869"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="869" id="dKQ-v6-O5d"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="xak-Sh-Lg1" secondAttribute="bottom" constant="8" id="F8H-u3-aF1"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="leading" secondItem="U5v-6z-F2c" secondAttribute="leadingMargin" id="N47-8o-tqg"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="trailing" secondItem="U5v-6z-F2c" secondAttribute="trailingMargin" id="Rtr-hs-YlB"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="top" secondItem="U5v-6z-F2c" secondAttribute="topMargin" id="YAN-bh-pGC"/>
-                                    <constraint firstItem="xak-Sh-Lg1" firstAttribute="centerX" secondItem="U5v-6z-F2c" secondAttribute="centerX" id="dJS-87-XcK"/>
-                                </constraints>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" tag="-1" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="Z5N-Z0-xw9">
-                                <rect key="frame" x="0.0" y="63" width="768" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z5N-Z0-xw9">
+                                <rect key="frame" x="0.0" y="63" width="499" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <barButtonItem title="Add Section" id="i2r-1c-QHu">
+                                    <barButtonItem title="Add Section" style="plain" id="i2r-1c-QHu">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="addSectionButton:" destination="N8N-5x-kPT" id="9au-8k-iA6"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Add Connection" id="9wU-YQ-cJM">
+                                    <barButtonItem title="Add Connection" style="plain" id="9wU-YQ-cJM">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="addConnectionButton:" destination="N8N-5x-kPT" id="JQz-xd-as9"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Color" id="ntl-5Q-mId">
+                                    <barButtonItem title="Color" style="plain" id="ntl-5Q-mId">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="changeColorButton:" destination="N8N-5x-kPT" id="2xB-ry-Zez"/>
@@ -62,19 +54,19 @@
                                     <barButtonItem id="Nk6-Na-HgQ">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </barButtonItem>
-                                    <barButtonItem title="Text" id="36X-dX-7vO">
+                                    <barButtonItem title="Text" style="plain" id="36X-dX-7vO">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="changeTextButton:" destination="N8N-5x-kPT" id="Pjz-PO-F5S"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Insert" id="KpS-ws-scl">
+                                    <barButtonItem title="Insert" style="plain" id="KpS-ws-scl">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="insertButton:" destination="N8N-5x-kPT" id="0Pj-C2-LAw"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Share" id="9Zp-dh-ftH">
+                                    <barButtonItem title="Share" style="plain" id="9Zp-dh-ftH">
                                         <color key="tintColor" red="0.2074802526" green="0.41658074239999998" blue="0.191566441" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <connections>
                                             <action selector="shareMindMap:" destination="N8N-5x-kPT" id="HYl-V8-pXF"/>
@@ -82,17 +74,13 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qbm-6k-WqQ">
+                                <rect key="frame" x="499" y="63" width="269" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="U5v-6z-F2c" secondAttribute="bottom" constant="20" id="Gg4-PZ-4AZ"/>
-                            <constraint firstItem="U5v-6z-F2c" firstAttribute="leading" secondItem="7es-LT-Y9C" secondAttribute="leadingMargin" id="L00-bE-EfH"/>
-                            <constraint firstItem="U5v-6z-F2c" firstAttribute="top" secondItem="7es-LT-Y9C" secondAttribute="top" constant="119" id="QgU-Px-W0S"/>
-                            <constraint firstItem="Z5N-Z0-xw9" firstAttribute="bottom" secondItem="U5v-6z-F2c" secondAttribute="top" constant="-12" id="T1Z-N9-vCT"/>
-                            <constraint firstItem="Z5N-Z0-xw9" firstAttribute="leading" secondItem="U5v-6z-F2c" secondAttribute="leading" constant="-20" id="Yur-K4-58k"/>
-                            <constraint firstItem="U5v-6z-F2c" firstAttribute="trailing" secondItem="7es-LT-Y9C" secondAttribute="trailingMargin" id="z7v-fI-fA4"/>
-                            <constraint firstItem="Z5N-Z0-xw9" firstAttribute="trailing" secondItem="U5v-6z-F2c" secondAttribute="trailing" constant="20" id="zGP-Qn-1Yc"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="w5a-PQ-MYn"/>
                     </view>
                     <connections>

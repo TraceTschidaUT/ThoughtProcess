@@ -181,6 +181,8 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
     
     @IBAction func shareMindMap(_ sender: UIBarButtonItem) {
         
+        self.resetZoom()
+        
         var nameTextField:UITextField? = nil
         
         self.alertController = UIAlertController(title: "Export Mind Map", message: "Choose file type to export as and give your mind map a name", preferredStyle: UIAlertControllerStyle.alert)
@@ -295,7 +297,7 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
             nameTextField?.placeholder = "File Name"
         }
         
-        self.present(self.alertController!, animated: true, completion:nil)
+        self.present(self.alertController!, animated: false, completion:nil)
     }
     
     func share(url: URL) {
@@ -486,6 +488,14 @@ extension ViewAndEditViewController: UIScrollViewDelegate {
         let minScale = min(widthScale, heightScale)
         
         viewAndEditScrollView.minimumZoomScale = minScale
+        viewAndEditScrollView.zoomScale = minScale
+    }
+    
+    func resetZoom() {
+        let widthScale = self.view.frame.size.width
+        let heightScale = self.view.frame.size.height
+        let minScale = widthScale / heightScale
+        
         viewAndEditScrollView.zoomScale = minScale
     }
 }
