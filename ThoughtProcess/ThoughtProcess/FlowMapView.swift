@@ -45,6 +45,7 @@ class FlowMapView: UIView, ColorChangeProtocol {
                 self.setNeedsDisplay()
             }
             else {
+                self.savedBackgroundColor = nil
                 self.backgroundColor = nil
             }
         }

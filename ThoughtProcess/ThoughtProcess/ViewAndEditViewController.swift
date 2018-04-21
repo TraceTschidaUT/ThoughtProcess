@@ -133,8 +133,16 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // Reset the zoom
+        self.resetZoom()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         print("View and Edit View: \n\t Func: viewWillDisappear: cleaning up and taking screenshot")
+        
+        // Reset the zoom
+        self.resetZoom()
         
         // Create new image context with the same size of the view
         UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0.0)
@@ -171,6 +179,12 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         
         // Set the tag to make changes later
         connection.tag = self.sections.count + 1
+        
+        // Grab the previous sections colors
+        if sections.first != nil {
+            guard let backgorundColor = sections.first?.value.viewColor else { return }
+            connection.savedBackgroundColor = backgorundColor
+        }
         
         // Add the arrows to an array
         self.sections[connection.tag] = connection
@@ -415,6 +429,12 @@ class ViewAndEditViewController: UIViewController, UINavigationControllerDelegat
         
         // Add a delegate to the textView
         shape.delegate = self
+        
+        // Grab the previous sections colors
+        if sections.first != nil {
+            guard let backgorundColor = sections.first?.value.viewColor else { return }
+            shape.savedBackgroundColor = backgorundColor
+        }
         
         // Add the arrows to an array
         self.sections[shape.tag] = shape
