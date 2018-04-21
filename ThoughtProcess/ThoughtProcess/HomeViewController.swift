@@ -363,7 +363,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.previewCollectionView.frame.width, height: 45.0)
+        let cellType = defaults.integer(forKey: "collectionCellType")
+        if cellType == 0 {
+            return CGSize(width: self.previewCollectionView.frame.width / 4, height: self.previewCollectionView.frame.height / 5)
+        }
+        else {
+            return CGSize(width: self.previewCollectionView.frame.width, height: 45.0)
+        }
     }
     
 }
