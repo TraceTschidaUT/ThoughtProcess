@@ -124,28 +124,28 @@ class HomeViewController: UIViewController {
         // Create an action sheet for the different sorting methods
         let alertController = UIAlertController(title: "Sort Mind Maps", message: "Choose how you want your Mind Maps sorted", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let ascendingTitle = UIAlertAction(title: "Z to A", style: UIAlertActionStyle.default, handler: { (alertAction) in
+        let ascendingTitle = UIAlertAction(title: "A to Z", style: UIAlertActionStyle.default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.ascendingAlpha
             self.previewCollectionView.reloadData()
         })
         
-        let ascendingDate = UIAlertAction(title: "Ascending Date", style: .default, handler: { (alertAction) in
+        let ascendingDate = UIAlertAction(title: "Newest to Oldest", style: .default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.ascendingDate
             self.previewCollectionView.reloadData()
         })
         
-        let descendingTitle = UIAlertAction(title: "A to Z", style: .default, handler: { (alertAction) in
+        let descendingTitle = UIAlertAction(title: "Z to A", style: .default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.descendingAlpha
             self.previewCollectionView.reloadData()
         })
         
-        let descendingDate = UIAlertAction(title: "Descending Date", style: .default, handler: { (alertAction) in
+        let descendingDate = UIAlertAction(title: "Oldest to Newest", style: .default, handler: { (alertAction) in
             
             // Change the sorting and reload the data
             self.sorting = MindMapSorting.descendingDate
